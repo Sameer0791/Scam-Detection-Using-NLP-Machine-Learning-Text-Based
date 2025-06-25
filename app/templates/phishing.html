@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phishing Scams - Scam Detection</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --primary-dark: #3730a3;
+            --primary-light: #818cf8;
+            --danger: #ef4444;
+            --danger-dark: #b91c1c;
+            --danger-light: #fee2e2;
+            --gray-50: #f9fafb;
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-300: #d1d5db;
+            --gray-400: #9ca3af;
+            --gray-500: #6b7280;
+            --gray-600: #4b5563;
+            --gray-700: #374151;
+            --gray-800: #1f2937;
+            --gray-900: #111827;
+        }
+        
+        body {
+            font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--gray-50);
+            color: var(--gray-700);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--gray-200);
+        }
+        
+        .header-logo {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+        }
+        
+        .header-logo i {
+            margin-right: 12px;
+            font-size: 32px;
+        }
+        
+        .card {
+            background-color: #ffffff;
+            border-radius: 16px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.1);
+            padding: 24px;
+            margin-bottom: 24px;
+            transition: all 0.3s ease;
+            border: 1px solid var(--gray-200);
+        }
+        
+        .btn {
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-weight: 600;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            border: none;
+            outline: none;
+        }
+        
+        .btn i {
+            margin-right: 10px;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 6px rgba(79, 70, 229, 0.2);
+        }
+        
+        .example-card {
+            border-left: 4px solid var(--danger);
+            background-color: var(--danger-light);
+            padding: 16px;
+            margin-bottom: 16px;
+            border-radius: 8px;
+        }
+        
+        .example-card h4 {
+            color: var(--danger-dark);
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        
+        .example-card p {
+            color: var(--gray-700);
+        }
+        
+        .tip-card {
+            border-left: 4px solid var(--primary);
+            background-color: #e0e7ff;
+            padding: 16px;
+            margin-bottom: 16px;
+            border-radius: 8px;
+        }
+        
+        .tip-card h4 {
+            color: var(--primary-dark);
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        
+        .tip-card p {
+            color: var(--gray-700);
+        }
+        
+        .section-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--gray-800);
+            margin-bottom: 16px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid var(--primary-light);
+        }
+        
+        .subsection-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--gray-800);
+            margin-top: 24px;
+            margin-bottom: 16px;
+        }
+        
+        ul.checklist {
+            list-style: none;
+            padding-left: 0;
+            margin-bottom: 24px;
+        }
+        
+        ul.checklist li {
+            position: relative;
+            padding-left: 30px;
+            margin-bottom: 12px;
+        }
+        
+        ul.checklist li:before {
+            content: '\f00c';
+            font-family: 'Font Awesome 5 Free';
+            font-weight: 900;
+            position: absolute;
+            left: 0;
+            top: 2px;
+            color: var(--primary);
+        }
+        
+        ul.warning-list {
+            list-style: none;
+            padding-left: 0;
+            margin-bottom: 24px;
+        }
+        
+        ul.warning-list li {
+            position: relative;
+            padding-left: 30px;
+            margin-bottom: 12px;
+        }
+        
+        ul.warning-list li:before {
+            content: '\f071';
+            font-family: 'Font Awesome 5 Free';
+            font-weight: 900;
+            position: absolute;
+            left: 0;
+            top: 2px;
+            color: var(--danger);
+        }
+        
+        .image-container {
+            margin: 24px 0;
+            text-align: center;
+        }
+        
+        .image-container img {
+            max-width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .image-caption {
+            margin-top: 8px;
+            font-size: 14px;
+            color: var(--gray-600);
+            text-align: center;
+        }
+        
+        .back-button {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 100;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 16px;
+            }
+            
+            .card {
+                padding: 20px;
+            }
+            
+            .section-title {
+                font-size: 22px;
+            }
+            
+            .subsection-title {
+                font-size: 18px;
+            }
+            
+            .back-button {
+                bottom: 20px;
+                right: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container mx-auto px-4 py-8">
+        <div class="header">
+            <div class="header-logo">
+                <i class="fas fa-fish text-red-500"></i>
+                <span>Phishing Scams</span>
+            </div>
+        </div>
+        
+        <div class="card">
+            <h1 class="section-title">What is Phishing?</h1>
+            <p class="mb-4">
+                Phishing is a type of social engineering attack where attackers deceive people into revealing sensitive information or installing malware by disguising themselves as trustworthy entities. These attacks often come through email, text messages, or fake websites that look identical to legitimate ones.
+            </p>
+            
+            <p class="mb-4">
+                The goal of phishing is typically to steal sensitive data like login credentials, credit card numbers, or personal information. Some phishing attacks also aim to install malware on the victim's device.
+            </p>
+            
+            <div class="example-card">
+                <h4>Real-World Example</h4>
+                <p>
+                    You receive an email that appears to be from your bank stating there's a problem with your account. The email contains a link to "verify your information." When you click the link, you're taken to a website that looks exactly like your bank's site, but it's actually a fake site designed to capture your login credentials.
+                </p>
+            </div>
+            
+            <h2 class="subsection-title">Common Types of Phishing Attacks</h2>
+            
+            <ul class="warning-list">
+                <li>
+                    <strong>Email Phishing:</strong> Mass-sent emails that appear to come from legitimate organizations, containing malicious links or attachments.
+                </li>
+                <li>
+                    <strong>Spear Phishing:</strong> Targeted attacks aimed at specific individuals or organizations, often using personalized information to appear more credible.
+                </li>
+                <li>
+                    <strong>Smishing:</strong> Phishing conducted via SMS text messages rather than email.
+                </li>
+                <li>
+                    <strong>Vishing:</strong> Voice phishing that uses phone calls to trick victims into revealing information.
+                </li>
+                <li>
+                    <strong>Clone Phishing:</strong> Duplicating a legitimate email but replacing links or attachments with malicious ones.
+                </li>
+                <li>
+                    <strong>Whaling:</strong> Phishing attacks specifically targeting high-profile executives or other high-value targets.
+                </li>
+            </ul>
+            
+            <div class="image-container">
+                <img src="https://www.phishingbox.com/assets/img/phishing-example-1.jpg" alt="Example of a phishing email" />
+                <p class="image-caption">Example of a phishing email with suspicious elements highlighted</p>
+            </div>
+        </div>
+        
+        <div class="card">
+            <h2 class="section-title">How to Identify Phishing Attempts</h2>
+            
+            <h3 class="subsection-title">Red Flags to Watch For</h3>
+            
+            <ul class="warning-list">
+                <li>
+                    <strong>Suspicious Sender Email:</strong> Look for slight misspellings in the domain name (e.g., "amaz0n.com" instead of "amazon.com").
+                </li>
+                <li>
+                    <strong>Generic Greetings:</strong> "Dear Customer" or "Dear User" instead of your actual name.
+                </li>
+                <li>
+                    <strong>Urgent Action Required:</strong> Creating a sense of urgency to make you act without thinking.
+                </li>
+                <li>
+                    <strong>Poor Grammar and Spelling:</strong> Legitimate organizations typically have professional communications.
+                </li>
+                <li>
+                    <strong>Suspicious Links:</strong> Hover over links to see the actual URL before clicking.
+                </li>
+                <li>
+                    <strong>Requests for Personal Information:</strong> Legitimate organizations rarely ask for sensitive information via email.
+                </li>
+                <li>
+                    <strong>Unexpected Attachments:</strong> Be wary of attachments you weren't expecting, especially executable files.
+                </li>
+                <li>
+                    <strong>Too Good to Be True:</strong> Offers of free products, huge discounts, or unexpected winnings.
+                </li>
+            </ul>
+            
+            <div class="tip-card">
+                <h4>Pro Tip: Check the URL</h4>
+                <p>
+                    Always check the URL in your browser's address bar before entering any sensitive information. Make sure it's the correct domain and that it uses HTTPS (look for the padlock icon). Be wary of URLs with unusual characters or that are excessively long.
+                </p>
+            </div>
+            
+            <div class="example-card">
+                <h4>Common Phishing Email Subject Lines</h4>
+                <ul>
+                    <li>"Your account has been suspended"</li>
+                    <li>"Verify your account information immediately"</li>
+                    <li>"Problem with your payment"</li>
+                    <li>"Security alert: Unusual sign-in attempt"</li>
+                    <li>"Your package could not be delivered"</li>
+                    <li>"You've received a secure document"</li>
+                    <li>"Invoice for your recent purchase"</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="card">
+            <h2 class="section-title">How to Protect Yourself from Phishing</h2>
+            
+            <ul class="checklist">
+                <li>
+                    <strong>Be skeptical of unsolicited communications.</strong> If you weren't expecting an email or message, be extra cautious.
+                </li>
+                <li>
+                    <strong>Verify the sender's identity.</strong> Call the company directly using a number from their official website, not the one provided in the suspicious message.
+                </li>
+                <li>
+                    <strong>Don't click on suspicious links.</strong> Type the URL directly into your browser or use bookmarks for sites you visit frequently.
+                </li>
+                <li>
+                    <strong>Keep your software updated.</strong> This includes your operating system, web browsers, and antivirus software.
+                </li>
+                <li>
+                    <strong>Use multi-factor authentication (MFA).</strong> This adds an extra layer of security even if your password is compromised.
+                </li>
+                <li>
+                    <strong>Use a password manager.</strong> This helps you maintain unique, strong passwords for each site.
+                </li>
+                <li>
+                    <strong>Check for HTTPS.</strong> Secure websites use encryption (look for the padlock icon in your browser).
+                </li>
+                <li>
+                    <strong>Be wary of attachments.</strong> Don't open attachments from unknown senders.
+                </li>
+                <li>
+                    <strong>Use email filtering.</strong> Most email providers have spam filters that can catch many phishing attempts.
+                </li>
+                <li>
+                    <strong>Educate yourself and others.</strong> Stay informed about the latest phishing techniques.
+                </li>
+            </ul>
+            
+            <div class="tip-card">
+                <h4>What to Do If You've Been Phished</h4>
+                <ol class="ml-5 list-decimal">
+                    <li>Change your passwords immediately for any accounts that may be affected.</li>
+                    <li>Contact your bank or credit card company if you've shared financial information.</li>
+                    <li>Monitor your accounts for suspicious activity.</li>
+                    <li>Report the phishing attempt to the organization being impersonated.</li>
+                    <li>Report the phishing to relevant authorities (like the FTC in the US).</li>
+                    <li>Run a security scan on your device to check for malware.</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+    
+    <a href="/" class="back-button btn btn-primary">
+        <i class="fas fa-arrow-left"></i> Back to Main Site
+    </a>
+    
+    <script>
+        // Any additional JavaScript can go here
+    </script>
+</body>
+</html>

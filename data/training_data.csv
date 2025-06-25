@@ -1,0 +1,197 @@
+text,is_scam,scam_type,platform
+"""Hey gorgeous! Just saw your profile. Want to be a model? $5000/shoot 📸""",True,impersonation,instagram
+"""⚠️ WhatsApp Security Alert: Account needs verification. Click: wa-verify.net""",True,phishing,whatsapp
+"""🚀 VIP Crypto signals group! 100x gains daily. Join now: t.me/crypto_vip""",True,other,other
+"""Hi! I represent Zara. Want to be our brand ambassador? DM for details!""",True,other,instagram
+"""Final warning: Your WhatsApp will expire! Update here: whatsapp-new.net""",True,urgent,whatsapp
+"""Exclusive NFT presale! Guaranteed profit. Join: t.me/nft_whales""",True,other,other
+"""Make $500/day from home! Join our trading group: t.me/forex_profits""",True,other,other
+"""Instagram copyright violation! Verify to avoid deletion: ig-verify.net""",True,phishing,instagram
+"""Hi dear, I saw your profile. I'm lonely soldier in Syria. Can we chat?""",True,other,whatsapp
+"""Get 50k real followers! Special offer $10 only. DM fast! 📈""",True,other,instagram
+"""URGENT: WhatsApp Pink version released! Download: whatsapp-pink.net",True,urgent,whatsapp
+"Binance pump group! Next signal: 1000% profit. Join: t.me/pump_alerts""",True,financial,other
+"Congrats! You won iPhone 15 Pro! Claim: prize-winner.net/claim""",True,other,instagram
+"""Your WhatsApp needs immediate verification: whatsapp-team.net/verify""",True,phishing,whatsapp
+"""Best crypto signals! 99.9% accuracy. VIP spots open: t.me/whale_calls""",True,financial,other
+"""Want to earn $3000/week modeling? Small fee required. DM now! 🔥""",True,other,instagram
+"""⚠️ Account suspension warning! Verify: whatsapp-support.net"",1,phishing,whatsapp
+""Private trading group! $100 = $5000 weekly. Join: t.me/trading_vip""",True,financial,other
+"""Get verified on Instagram! Blue tick 100% guaranteed. DM for price""",True,impersonation,instagram
+"""Hello, I'm dying and want to donate $5M to charity through you.""",True,financial,whatsapp
+"""Hey! You just won $5,000 cash in our Facebook giveaway! Reply with your PayPal ID now to claim!""",True,other,instagram
+"""We are giving away 1,000 MacBooks to lucky Instagram users! Click here to be our next winner ➡️ [scamlink.com]""",True,other,instagram
+"""You have been selected for a TikTok anniversary reward. Confirm your win now: [fraudsite.co/confirm]""",True,other,other
+"""Hello user! WhatsApp is offering free 100GB data and a new phone if you complete this survey: [scamsurvey.xyz]""",True,other,whatsapp
+"""Instagram Security: We detected unusual login attempts on your account. Please verify now to avoid suspension: [fake-login.io]""",True,phishing,instagram
+"""Dear user, your Facebook page will be deleted in 24 hours due to copyright violation. Appeal now: [malicious-link.com]""",True,phishing,other
+"""Your WhatsApp will expire soon! Reactivate to keep your chat history: [phishlink.me]""",True,phishing,whatsapp
+"""Telegram support: We need to verify your identity. Click the link and provide your login credentials: [phishy.telegram.link]""",True,phishing,other
+"""Your Instagram account is being reviewed for impersonation. Submit your details to avoid losing access: [fakeform.site]""",True,phishing,instagram
+"""📢 Hiring Now! Earn RM500/day working 1 hour from home! No experience needed. Apply now via WhatsApp: [scamnumber]""",True,other,whatsapp
+"""We have reviewed your profile. You're shortlisted for a data entry job. Message us for immediate joining!""",True,other,other
+"You can earn up to $2,000 weekly liking posts on Instagram. DM ‘YES’ now!",True,other,instagram
+"""Want to earn money just by forwarding messages on WhatsApp? Join our team now and get instant pay.",True,other,whatsapp
+Hi My name is bla bla,False,legitimate,other
+We want to Sell this to Sameer,False,legitimate,other
+"""This company pays you RM100 daily to rate shopping pages. Apply now!""",True,other,other
+"""Hey babe, I saw your profile and fell in love 😍 Can we chat on WhatsApp? I’m looking for something serious.""",True,impersonation,whatsapp
+"""I'm a US soldier currently deployed. I need someone to help me receive a parcel worth $10,000. Will you help me?""",True,impersonation,other
+"""I have photos of you. Pay me $300 in BTC or I’ll send them to all your friends. [BTC address]""",True,impersonation,other
+"""My name is Sophia, I’m from Korea. Let’s get to know each other better. Can I have your number?""",True,impersonation,other
+"""You’re so handsome! Want to video chat tonight? I’ll show you something special 😉""",True,other,instagram
+"""I turned RM200 into RM5,000 in 24 hours with this trading bot. DM me for the secret!""",True,financial,other
+"turned RM200 into RM5,000 in 24 hours with this trading bot. DM me for the secret!",True,other,other
+Download this WhatsApp theme! Looks amazing! [APK download link – malware],True,other,other
+"""This video is of you?! I can't believe it! 😱 [suspicious download link]""",True,urgent,other
+Watch how you look in 10 years! Use this filter app: [fake app site],True,urgent,other
+My name is Arman,False,legitimate,other
+Get blue tick on Instagram for free. Install now: [phishing.apk],True,phishing,other
+🎉 Congratulations! You've been selected as our lucky follower! Claim your FREE iPhone 15 here: [bit.ly/win-now] 📱,True,phishing,other
+"Hey! You just won $5,000 cash in our Facebook giveaway! Reply with your PayPal ID now to claim!",True,financial,other
+"We are giving away 1,000 MacBooks to lucky Instagram users! Click here to be our next winner ➡️ [scamlink.com]",True,other,instagram
+You have been selected for a TikTok anniversary reward. Confirm your win now: [fraudsite.co/confirm],True,other,instagram
+WhatsApp is offering free 100GB data and a new phone if you complete this survey: [scamsurvey.xyz],True,other,whatsapp
+Instagram Security: We detected unusual login attempts. Please verify now: [fake-login.io],True,phishing,instagram
+"Dear user, your Facebook page will be deleted in 24 hours due to copyright violation. Appeal now: [malicious-link.com]",True,impersonation,other
+Your WhatsApp will expire soon! Reactivate to keep your chat history: [phishlink.me],True,phishing,whatsapp
+Telegram support: We need to verify your identity. Click the link: [phishy.telegram.link],True,phishing,other
+Submit your Instagram credentials to avoid losing access: [fakeform.site],True,impersonation,instagram
+📢 Hiring Now! Earn RM500/day from home! No experience needed. Apply via WhatsApp: [scamnumber],True,impersonation,whatsapp
+You're shortlisted for a data entry job. Message us for immediate joining!,True,impersonation,other
+"Earn $2,000 weekly liking posts on Instagram. DM ‘YES’ now!",True,financial,instagram
+Forward messages on WhatsApp and get paid instantly. Join now.,True,other,whatsapp
+Get RM100 daily to rate shopping pages. Apply now!,True,other,other
+"Hey babe, I saw your profile and fell in love 😍 Can we chat on WhatsApp?",True,impersonation,whatsapp
+"I'm a US soldier deployed. Help me receive a parcel worth $10,000.",True,financial,other
+I have your photos. Pay $300 in BTC or I’ll send them to your friends.,True,financial,other
+My name is Sophia from Korea. Can I have your number?,True,impersonation,other
+Want to video chat tonight? I’ll show you something special 😉,True,impersonation,other
+Want to video chat tonight? I’ll show you something special 😉,True,impersonation,other
+"I turned RM200 into RM5,000 with this trading bot. DM for secret!",True,financial,other
+Join our private crypto group. Daily signals with 99% accuracy!,True,financial,other
+"Double your money in 1 hour! Trusted by 2,000+ people!",True,financial,other
+New NFT project. Early investors get 10x returns. Join: [scamlink],True,financial,other
+"I made $1,000 in 3 days from Instagram trading. DM me!",True,financial,instagram
+50% off on Nike shoes today only! Shop now: [fake-store.link],True,other,other
+AirPods Pro for RM99. Order fast: [fraudshop.my],True,other,other
+Claim your FREE Adidas shoes here: [scamwebsite.cc],True,other,other
+Huge clearance sale on iPhones for RM499: [phishstore.online],True,impersonation,other
+Lazada special sale - get RM300 voucher: [malicious-link],True,other,other
+Can you help me? I accidentally sent my WhatsApp code to you.,True,impersonation,instagram
+Trying to recover Facebook. Can you send me the code you received?,True,impersonation,other
+Help me recover Telegram. You'll get an SMS. Screenshot it to me.,True,impersonation,other
+My cousin got into an accident. Please help with RM100 🙏 [DuitNow account],True,financial,other
+Raising funds for children with cancer. Donate now: [scamdonate.link,True,phishing,other
+I'm stuck overseas and need RM300 to come back. Will repay.,True,financial,other
+Hi my name is ricardo,False,legitimate,other
+Fire burned our house. Help my family by donating 🙏 [e-wallet scam link],True,financial,other
+Download this WhatsApp theme! Looks amazing! [APK download link – malware],True,impersonation,whatsapp
+Get Instagram blue tick for free. Install now: [phishing.apk],True,urgent,instagram
+Ok lar... Joking wif u oni...,False,legitimate,whatsapp
+"Go until jurong point, crazy.. Available only in bugis n great world la e buffet... Cine there got amore wat...",False,legitimate,whatsapp
+Free entry in 2 a wkly comp to win FA Cup final tkts 21st May 2005. Text FA to 87121 to receive entry question(std txt rate)T&C's apply 08452810075over18's,True,other,whatsapp
+"Nah I don't think he goes to usf, he lives around here though",False,legitimate,other
+Even my brother is not like to speak with me. They treat me like aids patent.,False,legitimate,whatsapp
+WINNER!! As a valued network customer you have been selected to receivea å£900 prize reward! To claim call 09061701461. Claim code KL341. Valid 12 hours only.,True,phishing,instagram
+"SIX chances to win CASH! From 100 to 20,000 pounds txt> CSH11 and send to 87575. Cost 150p/day, 6days, 16+ TsandCs apply Reply HL 4 info",True,financial,whatsapp
+I've been searching for the right words to thank you for this breather. I promise i wont take your help for granted and will fulfil my promise. You have been wonderful and a blessing at all times.,False,legitimate,instagram
+I've been searching for the right words to thank you for this breather. I promise i wont take your help for granted and will fulfil my promise. You have been wonderful and a blessing at all times.,False,legitimate,whatsapp
+Oh k...i'm watching here:),False,legitimate,instagram
+"England v Macedonia - dont miss the goals/team news. Txt ur national team to 87077 eg ENGLAND to 87077 Try:WALES, SCOTLAND 4txt/Ì¼1.20 POBOXox36504W45WQ 16+",True,impersonation,instagram
+My name is Slim shady and i am a rapper,False,legitimate,other
+"I'm back &amp; we're packing the car now, I'll let you know if there's room",False,legitimate,whatsapp
+Did you catch the bus ? Are you frying an egg ? Did you make a tea? Are you eating your mom's left over dinner ? Do you feel my Love ?,False,legitimate,whatsapp
+Ahhh. Work. I vaguely remember that! What does it feel like? Lol,False,legitimate,instagram
+I see the letter B on my car,False,legitimate,whatsapp
+K tell me anything about you.,False,legitimate,whatsapp
+For fear of fainting with the of all that housework you just did? Quick have a cuppa,False,legitimate,instagram
+Yup... Ok i go home look at the timings then i msg Ì_ again... Xuhui going to learn on 2nd may too but her lesson is at 8am,False,legitimate,whatsapp
+WHO ARE YOU SEEING?,False,legitimate,whatsapp
+Great! I hope you like your man well endowed. I am  &lt;#&gt;  inches...,False,legitimate,instagram
+What you thinked about me. First time you saw me in class.,False,legitimate,instagram
+"Yeah hopefully, if tyler can't do it I could maybe ask around a bit",False,legitimate,whatsapp
+SMS. ac Sptv: The New Jersey Devils and the Detroit Red Wings play Ice Hockey. Correct or Incorrect? End? Reply END SPTV,True,impersonation,instagram
+I plane to give on this month end.,False,legitimate,whatsapp
+Im free in half and hour,False,legitimate,instagram
+I am waiting machan. Call me once you free.,False,legitimate,instagram
+Yup next stop.,False,legitimate,whatsapp
+"I call you later, don't have network. If urgnt, sms me.",False,legitimate,whatsapp
+Smile in Pleasure Smile in Pain Smile when trouble pours like Rain Smile when sum1 Hurts U Smile becoz SOMEONE still Loves to see u Smiling!!,False,legitimate,whatsapp
+Okay name ur price as long as its legal! Wen can I pick them up? Y u ave x ams xx,False,legitimate,instagram
+I know! Grumpy old people. My mom was like you better not be lying. Then again I am always the one to play jokes...,False,legitimate,whatsapp
+Dont worry. I guess he's busy.,False,legitimate,whatsapp
+What is the plural of the noun research?,False,legitimate,whatsapp
+Why are u here?,False,legitimate,whatsapp
+"Wa, ur openin sentence very formal... Anyway, i'm fine too, juz tt i'm eatin too much n puttin on weight...Haha... So anythin special happened?",False,legitimate,whatsapp
+Goodo! Yes we must speak friday - egg-potato ratio for tortilla needed!,False,legitimate,instagram
+Hmm...my uncle just informed me that he's paying the school directly. So pls buy food.,False,legitimate,whatsapp
+here is my new address -apples&pairs&all that malarky,False,legitimate,whatsapp
+"URGENT! Your Mobile No. was awarded å£2000 Bonus Caller Prize on 5/9/03 This is our final try to contact U! Call from Landline 09064019788 BOX42WR29C, 150PPM",True,impersonation,instagram
+Todays Voda numbers ending 7548 are selected to receive a $350 award. If you have a match please call 08712300220 quoting claim code 4041 standard rates app,True,impersonation,whatsapp
+Pay 100$ to me right now,True,financial,whatsapp
+Pay me 100$,True,financial,other
+"Hi frnd, which is best way to avoid missunderstding wit our beloved one's?",False,legitimate,instagram
+Great escape. I fancy the bridge but needs her lager. See you tomo,False,legitimate,instagram
+"Turns out my friends are staying for the whole show and won't be back til ~ &lt;#&gt; , so feel free to go ahead and smoke that $ &lt;#&gt;  worth",False,legitimate,whatsapp
+Let me know when you've got the money so carlos can make the call,False,legitimate,instagram
+ok. I am a gentleman and will treat you with dignity and respect.,False,legitimate,instagram
+Hello handsome ! Are you finding that job ? Not being lazy ? Working towards getting back that net for mummy ? Where's my boytoy now ? Does he miss me ?,False,legitimate,instagram
+"Haha awesome, be there in a minute",False,legitimate,instagram
+Gud mrng dear hav a nice day,False,legitimate,instagram
+Hi its Kate how is your evening? I hope i can see you tomorrow for a bit but i have to bloody babyjontet! Txt back if u can. :) xxx,False,legitimate,instagram
+Hello darlin ive finished college now so txt me when u finish if u can love Kate xxx,False,legitimate,whatsapp
+ÌÏ say until like dat i dun buy ericsson oso cannot oredi lar...,False,legitimate,whatsapp
+Both :) i shoot big loads so get ready!,False,legitimate,whatsapp
+Yeah you should. I think you can use your gt atm now to register. Not sure but if there's anyway i can help let me know. But when you do be sure you are ready.,False,legitimate,whatsapp
+Finally the match heading towards draw as your prediction.,False,legitimate,whatsapp
+Yeah you should. I think you can use your gt atm now to register. Not sure but if there's anyway i can help let me know. But when you do be sure you are ready.,False,legitimate,whatsapp
+"Life is more strict than teacher... Bcoz Teacher teaches lesson &amp; then conducts exam, But Life first conducts Exam &amp; then teaches Lessons. Happy morning. . .",False,legitimate,whatsapp
+Yes:)here tv is always available in work place..,False,legitimate,whatsapp
+I have printed it oh. So  &lt;#&gt;  come upstairs,False,legitimate,whatsapp
+"New Theory: Argument wins d SITUATION, but loses the PERSON. So dont argue with ur friends just.. . . . kick them &amp; say, I'm always correct.!",False,legitimate,whatsapp
+100$ is needed for Whatsapp account to be unbarred. Pay now!,True,financial,whatsapp
+my name is arman kun,False,legitimate,other
+Your WhatsApp will expire soon! Reactivate to keep your chat history:,True,other,whatsapp
+Here i am doin this thing,False,legitimate,other
+Here i am doing a sale for 200k for crypto currency. Pay me Now!,True,financial,whatsapp
+"Dear Customer,
+Your Maybank account has been temporarily suspended due to suspicious activity.
+To restore access, please verify your identity immediately by clicking this link:",True,impersonation,other
+"""Hello!
+We are offering exclusive investment opportunities with guaranteed returns of RM5,000 within 7 days! 📈
+No experience needed — just invest RM500 and watch your money grow!
+Limited slots available. Contact our agent now via WhatsApp: +6012-XXX XXXX.
+Don’t miss this once-in-a-lifetime opportunity!""",True,financial,whatsapp
+are you running through the streets. Barefooted?,False,legitimate,whatsapp
+"🤑 Welcome to ""Malaysia Profit Master Club"" 🤑
+✅ 100% legit & trusted since 2021
+✅ Earn RM3,000+ weekly from home
+🧠 No experience needed, we teach you everything
+
+🔥 Limited VIP slots — join fast!
+Click here to register: [http://malaysia-profit-vip.site]
+
+💬 Admin: @FastProfitAgen",True,financial,telegram
+Malaysia is cold today,False,legitimate,telegram
+"🎁 Free Crypto Airdrop — Binance Partnered 🎁
+
+Register your wallet and get RM200 worth of USDT instantly!
+Just deposit RM100 to activate the trading bot.
+
+🔗 Claim now: [http://binance-rewardcenter.xyz]
+
+Support: @BinanceHelp_MY",True,financial,telegram
+"Hi bro/sis, I’m from CIMB Personal Loan Department.
+We’re currently offering low-interest loans with same-day approval 🏦
+Just send your IC and payslip for quick check ✅
+
+✅ No blacklisting
+✅ RM1,000 – RM50,000 available
+
+Contact me here or @CIMB_Agent_Loan",True,financial,telegram
+hey how are you,False,legitimate,other
+Great escape. I fancy the bridge but needs her lager. See you tomo,True,financial,whatsapp
+"Your account has been reported for suspicious activity and may be suspended.
+
+Please verify your account within the next 24 hours to avoid permanent suspension.",True,phishing,telegram

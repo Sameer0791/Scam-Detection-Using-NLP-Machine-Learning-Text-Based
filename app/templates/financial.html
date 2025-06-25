@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Financial Scams - Scam Detection</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --primary-dark: #3730a3;
+            --primary-light: #818cf8;
+            --success: #10b981;
+            --success-dark: #059669;
+            --success-light: #d1fae5;
+            --gray-50: #f9fafb;
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-300: #d1d5db;
+            --gray-400: #9ca3af;
+            --gray-500: #6b7280;
+            --gray-600: #4b5563;
+            --gray-700: #374151;
+            --gray-800: #1f2937;
+            --gray-900: #111827;
+        }
+        
+        body {
+            font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--gray-50);
+            color: var(--gray-700);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--gray-200);
+        }
+        
+        .header-logo {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+        }
+        
+        .header-logo i {
+            margin-right: 12px;
+            font-size: 32px;
+        }
+        
+        .card {
+            background-color: #ffffff;
+            border-radius: 16px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.1);
+            padding: 24px;
+            margin-bottom: 24px;
+            transition: all 0.3s ease;
+            border: 1px solid var(--gray-200);
+        }
+        
+        .btn {
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-weight: 600;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            border: none;
+            outline: none;
+        }
+        
+        .btn i {
+            margin-right: 10px;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 6px rgba(79, 70, 229, 0.2);
+        }
+        
+        .example-card {
+            border-left: 4px solid var(--success);
+            background-color: var(--success-light);
+            padding: 16px;
+            margin-bottom: 16px;
+            border-radius: 8px;
+        }
+        
+        .example-card h4 {
+            color: var(--success-dark);
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        
+        .example-card p {
+            color: var(--gray-700);
+        }
+        
+        .tip-card {
+            border-left: 4px solid var(--primary);
+            background-color: #e0e7ff;
+            padding: 16px;
+            margin-bottom: 16px;
+            border-radius: 8px;
+        }
+        
+        .tip-card h4 {
+            color: var(--primary-dark);
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        
+        .tip-card p {
+            color: var(--gray-700);
+        }
+        
+        .section-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--gray-800);
+            margin-bottom: 16px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid var(--primary-light);
+        }
+        
+        .subsection-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--gray-800);
+            margin-top: 24px;
+            margin-bottom: 16px;
+        }
+        
+        ul.checklist {
+            list-style: none;
+            padding-left: 0;
+            margin-bottom: 24px;
+        }
+        
+        ul.checklist li {
+            position: relative;
+            padding-left: 30px;
+            margin-bottom: 12px;
+        }
+        
+        ul.checklist li:before {
+            content: '\f00c';
+            font-family: 'Font Awesome 5 Free';
+            font-weight: 900;
+            position: absolute;
+            left: 0;
+            top: 2px;
+            color: var(--primary);
+        }
+        
+        ul.warning-list {
+            list-style: none;
+            padding-left: 0;
+            margin-bottom: 24px;
+        }
+        
+        ul.warning-list li {
+            position: relative;
+            padding-left: 30px;
+            margin-bottom: 12px;
+        }
+        
+        ul.warning-list li:before {
+            content: '\f071';
+            font-family: 'Font Awesome 5 Free';
+            font-weight: 900;
+            position: absolute;
+            left: 0;
+            top: 2px;
+            color: var(--success);
+        }
+        
+        .image-container {
+            margin: 24px 0;
+            text-align: center;
+        }
+        
+        .image-container img {
+            max-width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .image-caption {
+            margin-top: 8px;
+            font-size: 14px;
+            color: var(--gray-600);
+            text-align: center;
+        }
+        
+        .back-button {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 100;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 16px;
+            }
+            
+            .card {
+                padding: 20px;
+            }
+            
+            .section-title {
+                font-size: 22px;
+            }
+            
+            .subsection-title {
+                font-size: 18px;
+            }
+            
+            .back-button {
+                bottom: 20px;
+                right: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container mx-auto px-4 py-8">
+        <div class="header">
+            <div class="header-logo">
+                <i class="fas fa-money-bill-wave text-green-500"></i>
+                <span>Financial Scams</span>
+            </div>
+        </div>
+        
+        <div class="card">
+            <h1 class="section-title">What are Financial Scams?</h1>
+            <p class="mb-4">
+                Financial scams are deceptive practices designed to trick people into sending money or providing financial information that can be used to steal from them. These scams can target anyone, regardless of age, education, or financial status.
+            </p>
+            
+            <p class="mb-4">
+                Unlike other types of scams that might focus on stealing personal information, financial scams are directly aimed at separating you from your money, often through elaborate stories, fake investment opportunities, or by exploiting trust and emotional vulnerability.
+            </p>
+            
+            <div class="example-card">
+                <h4>Real-World Example</h4>
+                <p>
+                    You receive an email claiming you've won a lottery or sweepstakes you never entered. To claim your "prize," you're told you need to pay a small fee for taxes, processing, or transfer costs. After you pay, there are more fees, and the prize never materializes.
+                </p>
+            </div>
+            
+            <h2 class="subsection-title">Common Types of Financial Scams</h2>
+            
+            <ul class="warning-list">
+                <li>
+                    <strong>Advance Fee Fraud:</strong> Requesting upfront payment for something of greater value that never materializes.
+                </li>
+                <li>
+                    <strong>Investment Scams:</strong> Promises of high returns with little or no risk on fake investment opportunities.
+                </li>
+                <li>
+                    <strong>Romance Scams:</strong> Building a romantic relationship online to gain trust before requesting money for emergencies or travel.
+                </li>
+                <li>
+                    <strong>Lottery/Prize Scams:</strong> Notifications of winning a contest you never entered, requiring fees to claim the prize.
+                </li>
+                <li>
+                    <strong>Cryptocurrency Scams:</strong> Fake investment platforms, pump-and-dump schemes, or fraudulent initial coin offerings.
+                </li>
+                <li>
+                    <strong>Fake Invoice Scams:</strong> Sending invoices for products or services never ordered or received.
+                </li>
+                <li>
+                    <strong>Charity Scams:</strong> Soliciting donations for fake charities, often following disasters or high-profile events.
+                </li>
+                <li>
+                    <strong>Ponzi/Pyramid Schemes:</strong> Investment fraud where returns for existing investors come from new investor money.
+                </li>
+            </ul>
+            
+            <div class="image-container">
+                <img src="https://www.consumer.ftc.gov/sites/default/files/pictures/0159-money-scams.png" alt="Example of a financial scam" />
+                <p class="image-caption">Common financial scam warning signs</p>
+            </div>
+        </div>
+        
+        <div class="card">
+            <h2 class="section-title">How to Identify Financial Scams</h2>
+            
+            <h3 class="subsection-title">Red Flags to Watch For</h3>
+            
+            <ul class="warning-list">
+                <li>
+                    <strong>Promises of Guaranteed Returns:</strong> No legitimate investment can guarantee profits.
+                </li>
+                <li>
+                    <strong>Pressure to Act Quickly:</strong> Creating urgency to prevent you from researching or thinking critically.
+                </li>
+                <li>
+                    <strong>Requests for Unusual Payment Methods:</strong> Gift cards, wire transfers, cryptocurrency, or money orders.
+                </li>
+                <li>
+                    <strong>Unsolicited Contact:</strong> Investment opportunities that come to you out of the blue.
+                </li>
+                <li>
+                    <strong>Secrecy or Exclusivity:</strong> Claims that an opportunity is "exclusive" or requires secrecy.
+                </li>
+                <li>
+                    <strong>Lack of Documentation:</strong> Inability or unwillingness to provide proper documentation.
+                </li>
+                <li>
+                    <strong>Unregistered Products:</strong> Investment products and professionals should be registered with regulatory authorities.
+                </li>
+                <li>
+                    <strong>Complicated Strategies:</strong> Overly complex explanations designed to confuse and impress.
+                </li>
+                <li>
+                    <strong>Personal Stories and Emotional Appeals:</strong> Using emotional manipulation to cloud judgment.
+                </li>
+            </ul>
+            
+            <div class="tip-card">
+                <h4>Pro Tip: Research Before You Invest</h4>
+                <p>
+                    Before investing money or providing financial information, research the company, individual, or opportunity thoroughly. Check with financial regulatory authorities, look for reviews from trusted sources, and consult with a financial advisor if necessary. Remember the adage: if it sounds too good to be true, it probably is.
+                </p>
+            </div>
+            
+            <div class="example-card">
+                <h4>Common Financial Scam Phrases</h4>
+                <ul>
+                    <li>"Guaranteed returns with no risk"</li>
+                    <li>"This opportunity won't last long"</li>
+                    <li>"Everyone is making money with this"</li>
+                    <li>"You've been specially selected"</li>
+                    <li>"Keep this confidential"</li>
+                    <li>"We just need a small fee to release your funds"</li>
+                    <li>"Invest now before it's too late"</li>
+                    <li>"This is a once-in-a-lifetime opportunity"</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="card">
+            <h2 class="section-title">How to Protect Yourself from Financial Scams</h2>
+            
+            <ul class="checklist">
+                <li>
+                    <strong>Be skeptical of unsolicited offers,</strong> especially those promising high returns with little or no risk.
+                </li>
+                <li>
+                    <strong>Research thoroughly</strong> before investing or sending money to anyone.
+                </li>
+                <li>
+                    <strong>Verify the legitimacy</strong> of investment professionals and companies with regulatory authorities.
+                </li>
+                <li>
+                    <strong>Never send money to someone you haven't met in person,</strong> especially in romantic relationships formed online.
+                </li>
+                <li>
+                    <strong>Be wary of pressure tactics</strong> and artificial time constraints.
+                </li>
+                <li>
+                    <strong>Don't make financial decisions when emotionally vulnerable</strong> or under pressure.
+                </li>
+                <li>
+                    <strong>Use secure payment methods</strong> that offer fraud protection.
+                </li>
+                <li>
+                    <strong>Keep your financial information private</strong> and secure.
+                </li>
+                <li>
+                    <strong>Be cautious of investment opportunities shared on social media</strong> or through unsolicited emails.
+                </li>
+                <li>
+                    <strong>Consult with a trusted financial advisor</strong> before making significant investment decisions.
+                </li>
+            </ul>
+            
+            <div class="tip-card">
+                <h4>What to Do If You've Been Scammed</h4>
+                <ol class="ml-5 list-decimal">
+                    <li>Stop all communication with the scammer immediately.</li>
+                    <li>Contact your bank or financial institution right away to report the fraud and potentially stop payments.</li>
+                    <li>Change passwords for all your financial accounts.</li>
+                    <li>Report the scam to relevant authorities (police, financial regulators, consumer protection agencies).</li>
+                    <li>Keep all records of communications and transactions as evidence.</li>
+                    <li>Monitor your credit reports and financial statements for unusual activity.</li>
+                    <li>Consider placing a fraud alert or credit freeze on your credit reports.</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+    
+    <a href="/" class="back-button btn btn-primary">
+        <i class="fas fa-arrow-left"></i> Back to Main Site
+    </a>
+    
+    <script>
+        // Any additional JavaScript can go here
+    </script>
+</body>
+</html>

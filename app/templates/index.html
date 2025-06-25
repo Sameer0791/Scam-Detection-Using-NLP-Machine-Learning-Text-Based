@@ -1,0 +1,1959 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scam Detection</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --primary-dark: #3730a3;
+            --primary-light: #818cf8;
+            --secondary: #f97316;
+            --secondary-dark: #ea580c;
+            --success: #10b981;
+            --danger: #ef4444;
+            --danger-dark: #b91c1c;
+            --danger-light: #fee2e2;
+            --warning: #f59e0b;
+            --warning-dark: #d97706;
+            --info: #3b82f6;
+            --light: #f9fafb;
+            --dark: #1f2937;
+            --gray-50: #f9fafb;
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-300: #d1d5db;
+            --gray-400: #9ca3af;
+            --gray-500: #6b7280;
+            --gray-600: #4b5563;
+            --gray-700: #374151;
+            --gray-800: #1f2937;
+            --gray-900: #111827;
+        }
+        
+        body {
+            font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--gray-50);
+            color: var(--gray-700);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .card {
+            background-color: #ffffff;
+            border-radius: 16px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.1);
+            padding: 24px;
+            margin-bottom: 24px;
+            transition: all 0.3s ease;
+            border: 1px solid var(--gray-200);
+        }
+        
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.05), 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+        
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--gray-200);
+        }
+        
+        .header-logo {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+        }
+        
+        .header-logo i {
+            margin-right: 12px;
+            font-size: 32px;
+        }
+        
+        .tab-container {
+            display: flex;
+            border-bottom: 1px solid var(--gray-200);
+            margin-bottom: 24px;
+        }
+        
+        .tab {
+            padding: 12px 24px;
+            font-weight: 600;
+            color: var(--gray-500);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border-bottom: 2px solid transparent;
+        }
+        
+        .tab:hover {
+            color: var(--primary);
+        }
+        
+        .tab.active {
+            color: var(--primary);
+            border-bottom: 2px solid var(--primary);
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.3s ease-in;
+        }
+        
+        .awareness-item {
+            display: flex;
+            align-items: center;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 16px;
+            transition: all 0.3s ease;
+            border-left: 4px solid transparent;
+            background-color: white;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            cursor: pointer;
+        }
+        
+        .awareness-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.05);
+        }
+        
+        .awareness-item i {
+            font-size: 28px;
+            margin-right: 20px;
+        }
+        
+        .awareness-item.highlighted {
+            background-color: #eff6ff;
+            border-left: 4px solid var(--primary);
+            box-shadow: 0 6px 12px rgba(79, 70, 229, 0.1);
+        }
+        
+        .progress-ring {
+            position: relative;
+            width: 200px;
+            height: 200px;
+            margin: 20px auto;
+        }
+        
+        .progress-ring__circle {
+            transition: all 0.5s ease;
+            transform: rotate(-90deg);
+            transform-origin: 50% 50%;
+        }
+        
+        .progress-ring__background {
+            stroke: #e5e7eb;
+            stroke-width: 12;
+            fill: transparent;
+        }
+        
+        .progress-ring__text {
+            position: absolute;
+            top: 42%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 1.6em;
+            font-weight: bold;
+            text-align: center;
+            line-height: 1;
+            transition: color 0.5s ease;
+        }
+
+        .progress-ring__text.low-risk {
+            color: var(--success);
+        }
+
+        .progress-ring__text.medium-risk {
+            color: var(--warning);
+        }
+
+        .progress-ring__text.high-risk {
+            color: var(--danger);
+        }
+
+        .progress-ring__label {
+            position: absolute;
+            top: 58%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 0.7em;
+            color: var(--gray-600);
+            white-space: nowrap;
+            text-align: center;
+            max-width: 140px;
+            line-height: 1.1;
+        }
+        
+        #flagOptions {
+            display: none;
+            overflow: hidden;
+            max-height: 0;
+            transition: max-height 0.5s ease-out;
+        }
+        
+        #flagOptions.visible {
+            display: block;
+            max-height: 800px;
+            animation: slideDown 0.3s ease-out;
+        }
+        
+        .btn {
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-weight: 600;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            border: none;
+            outline: none;
+        }
+        
+        .btn i {
+            margin-right: 10px;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 6px rgba(79, 70, 229, 0.2);
+        }
+        
+        .btn-danger {
+            background-color: var(--danger);
+            color: white;
+        }
+        
+        .btn-danger:hover {
+            background-color: var(--danger-dark);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 6px rgba(239, 68, 68, 0.2);
+        }
+        
+        .btn-warning {
+            background-color: var(--warning);
+            color: white;
+        }
+        
+        .btn-warning:hover {
+            background-color: #d97706;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 6px rgba(245, 158, 11, 0.2);
+        }
+        
+        .btn-success {
+            background-color: var(--success);
+            color: white;
+        }
+        
+        .btn-success:hover {
+            background-color: #059669;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 6px rgba(16, 185, 129, 0.2);
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 14px;
+            border: 1px solid var(--gray-300);
+            border-radius: 12px;
+            transition: all 0.2s ease;
+            font-size: 16px;
+            background-color: white;
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2);
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--gray-700);
+        }
+        
+        .form-select {
+            width: 100%;
+            padding: 14px;
+            border: 1px solid var(--gray-300);
+            border-radius: 12px;
+            background-color: white;
+            transition: all 0.2s ease;
+            font-size: 16px;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%236b7280'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 14px center;
+            background-size: 16px;
+        }
+        
+        .form-select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2);
+        }
+        
+        .text-highlight {
+            background-color: #fef3c7;
+            padding: 2px 4px;
+            border-radius: 4px;
+            font-weight: 500;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 9999px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-right: 6px;
+            margin-bottom: 6px;
+        }
+        
+        .badge-primary {
+            background-color: #e0e7ff;
+            color: var(--primary-dark);
+        }
+        
+        .badge-danger {
+            background-color: var(--danger-light);
+            color: var(--danger-dark);
+        }
+        
+        .badge-success {
+            background-color: #d1fae5;
+            color: #065f46;
+        }
+
+        .badge-medium {
+            background-color: #fef3c7;
+            color: var(--warning-dark);
+        }
+        
+        .badge-warning {
+            background-color: #fef3c7;
+            color: #92400e;
+        }
+        
+        .text-processing {
+            background-color: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+        
+        .text-processing h4 {
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: var(--gray-700);
+        }
+        
+        .text-processing pre {
+            background-color: var(--gray-100);
+            padding: 16px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+        }
+        
+        .feature-importance {
+            margin-top: 28px;
+            background-color: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+        
+        .feature-bar {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .feature-name {
+            width: 140px;
+            font-weight: 500;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        
+        .feature-value-bar {
+            flex-grow: 1;
+            height: 14px;
+            background-color: var(--danger-light);
+            border-radius: 7px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .feature-value-fill {
+            height: 100%;
+            background-color: var(--danger);
+            border-radius: 7px;
+        }
+        
+        .feature-score {
+            width: 60px;
+            text-align: right;
+            font-size: 12px;
+            color: var(--gray-600);
+            font-weight: 500;
+        }
+        
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 30px;
+        }
+        
+        .loading-spinner {
+            border: 4px solid var(--gray-200);
+            border-top: 4px solid var(--primary);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+        
+        .ngram-section {
+            margin-top: 28px;
+            background-color: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+        
+        .ngram-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            padding: 12px;
+            border-radius: 8px;
+            background-color: var(--gray-50);
+            transition: all 0.2s ease;
+            border-left: 3px solid transparent;
+        }
+        
+        .ngram-item:hover {
+            background-color: var(--gray-100);
+            transform: translateX(2px);
+        }
+        
+        .ngram-text {
+            flex-grow: 1;
+            font-weight: 500;
+        }
+        
+        .ngram-score {
+            width: 70px;
+            text-align: right;
+            font-weight: 600;
+        }
+        
+        .ngram-type {
+            width: 90px;
+            text-align: center;
+            font-size: 12px;
+            padding: 4px 8px;
+            border-radius: 6px;
+            background-color: #e0e7ff;
+            color: var(--primary-dark);
+            margin-left: 12px;
+        }
+        
+        .highlighted-text {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: white;
+            border-radius: 12px;
+            line-height: 1.8;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            font-size: 16px;
+        }
+        
+        .highlight-bigram {
+            background-color: #fee2e2;
+            padding: 2px 4px;
+            border-radius: 4px;
+            font-weight: 500;
+            position: relative;
+        }
+        
+        .highlight-trigram {
+            background-color: #fef3c7;
+            padding: 2px 4px;
+            border-radius: 4px;
+            font-weight: 500;
+            position: relative;
+        }
+        
+        .highlight-tooltip {
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: var(--gray-800);
+            color: white;
+            padding: 6px 10px;
+            border-radius: 6px;
+            font-size: 12px;
+            white-space: nowrap;
+            visibility: hidden;
+            opacity: 0;
+            transition: opacity 0.2s;
+            z-index: 10;
+        }
+        
+        .highlight-bigram:hover .highlight-tooltip,
+        .highlight-trigram:hover .highlight-tooltip {
+            visibility: visible;
+            opacity: 1;
+        }
+        
+        .result-card {
+            background-color: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.1);
+            padding: 24px;
+            margin-bottom: 24px;
+            transition: all 0.3s ease;
+            border: 1px solid var(--gray-200);
+        }
+        
+        .result-card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--gray-200);
+        }
+        
+        .result-card-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--gray-800);
+        }
+        
+        .result-card-body {
+            padding: 0;
+        }
+        
+        .result-section {
+            margin-bottom: 24px;
+        }
+        
+        .result-section-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--gray-700);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .result-section-title i {
+            margin-right: 8px;
+            color: var(--primary);
+        }
+        
+        .section-description {
+            background-color: #f8fafc;
+            border-left: 4px solid var(--primary);
+            padding: 12px 16px;
+            margin-bottom: 16px;
+            border-radius: 0 8px 8px 0;
+            font-size: 14px;
+            color: var(--gray-600);
+            line-height: 1.5;
+        }
+        
+        .scroll-indicator {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+            animation: bounce 2s infinite;
+        }
+        
+        .scroll-indicator i {
+            font-size: 24px;
+            color: var(--gray-400);
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-10px);
+            }
+            60% {
+                transform: translateY(-5px);
+            }
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.3s ease-in;
+        }
+        
+        .tooltip {
+            position: relative;
+            display: inline-block;
+            cursor: help;
+        }
+        
+        .tooltip .tooltip-text {
+            visibility: hidden;
+            width: 220px;
+            background-color: var(--gray-800);
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 10px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 14px;
+            font-weight: normal;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .tooltip:hover .tooltip-text {
+            visibility: visible;
+            opacity: 1;
+        }
+        
+        .training-info {
+            margin-top: 20px;
+            padding: 16px;
+            background-color: #eff6ff;
+            border-radius: 12px;
+            font-size: 14px;
+            color: var(--primary-dark);
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 4px rgba(79, 70, 229, 0.1);
+        }
+        
+        .training-info i {
+            margin-right: 10px;
+            font-size: 18px;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+        
+        .stats-card {
+            background-color: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+        
+        .stats-card h4 {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--gray-700);
+            margin-bottom: 12px;
+        }
+        
+        .stats-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid var(--gray-200);
+        }
+        
+        .stats-item:last-child {
+            border-bottom: none;
+        }
+        
+        .stats-label {
+            font-weight: 500;
+            color: var(--gray-600);
+        }
+        
+        .stats-value {
+            font-weight: 600;
+            color: var(--gray-800);
+        }
+        
+        .debug-section {
+            margin-top: 20px;
+            padding: 16px;
+            background-color: var(--gray-100);
+            border-radius: 12px;
+            font-size: 14px;
+            color: var(--gray-600);
+        }
+        
+        .debug-title {
+            font-weight: 600;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+        
+        .debug-title i {
+            margin-right: 8px;
+        }
+        
+        .debug-content {
+            display: none;
+            padding: 10px;
+            background-color: white;
+            border-radius: 8px;
+            margin-top: 8px;
+        }
+        
+        .debug-content.visible {
+            display: block;
+        }
+        
+        .debug-item {
+            margin-bottom: 6px;
+        }
+        
+        .risk-summary {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background-color: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+            border: 1px solid var(--gray-200);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .risk-summary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 6px;
+            background-color: var(--danger);
+        }
+        
+        .risk-summary.low-risk::before {
+            background-color: var(--success);
+        }
+
+        .risk-summary.medium-risk::before {
+            background-color: var(--warning);
+        }
+        
+        .risk-summary h3 {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: var(--gray-800);
+        }
+        
+        .risk-summary p {
+            font-size: 16px;
+            color: var(--gray-600);
+            text-align: center;
+            max-width: 600px;
+            margin-bottom: 20px;
+        }
+        
+        .risk-indicators {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 20px;
+            justify-content: center;
+        }
+        
+        .section-divider {
+            height: 1px;
+            background-color: var(--gray-200);
+            margin: 30px 0;
+            position: relative;
+        }
+        
+        .section-divider::after {
+            content: '';
+            position: absolute;
+            top: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 10px;
+            height: 10px;
+            background-color: var(--gray-300);
+            border-radius: 50%;
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .container {
+                padding: 16px;
+            }
+            
+            .card {
+                padding: 20px;
+            }
+            
+            .awareness-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .tab {
+                padding: 10px 16px;
+                font-size: 14px;
+            }
+            
+            .progress-ring {
+                width: 160px;
+                height: 160px;
+            }
+
+            .progress-ring__text {
+                font-size: 1.4em;
+                top: 40%;
+            }
+
+            .progress-ring__label {
+                font-size: 0.65em;
+                top: 56%;
+                max-width: 120px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container mx-auto px-4 py-8">
+        <div class="header">
+            <div class="header-logo">
+                <i class="fas fa-shield-alt"></i>
+                <span>Scam Detection</span>
+            </div>
+        </div>
+        
+        <div class="tab-container">
+            <div class="tab active" data-tab="analysis">Message Analysis</div>
+            <div class="tab" data-tab="results">Analysis Results</div>
+            <div class="tab" data-tab="stats">Statistics</div>
+        </div>
+        
+        <div id="analysisTab" class="tab-content active">
+            <div class="card">
+                <h3 class="text-xl font-bold mb-6">Message Analysis Engine</h3>
+                <div class="section-description">
+                    The system uses a hybrid approach combining machine learning with pattern recognition. 
+                    It analyzes your message using TF-IDF (Term Frequency-Inverse Document Frequency) for statistical word importance 
+                    and N-gram analysis to detect suspicious phrase patterns commonly found in scam messages.
+                </div>
+                <div class="mb-6">
+                    <label for="messageInput" class="form-label">Enter or paste the message to analyze:</label>
+                    <textarea id="messageInput" class="form-control" rows="5" placeholder="Paste any suspicious message here for analysis..."></textarea>
+                </div>
+                <div class="flex justify-between mt-6">
+                    <button id="analyzeBtn" class="btn btn-primary">
+                        <i class="fas fa-search"></i> Analyze Message
+                    </button>
+                    <button id="clearBtn" class="btn btn-danger">
+                        <i class="fas fa-trash"></i> Clear
+                    </button>
+                </div>
+                
+                <div id="loading" class="loading">
+                    <div class="loading-spinner"></div>
+                    <p>Running analysis...</p>
+                </div>
+            </div>
+            
+            <div class="card" id="awarenessSection">
+                <h2 class="text-2xl font-bold mb-6 text-center text-indigo-600">Scam Type Classification</h2>
+                <div class="section-description">
+                    Understanding different scam categories helps in pattern recognition. 
+                    Our system classifies scams into these main types based on their behavioral patterns and linguistic features.
+                </div>
+                <div id="userAwareness" class="grid grid-cols-1 md:grid-cols-2 gap-6 awareness-grid">
+                    <a href="/phishing" class="awareness-item bg-red-50 text-red-700" id="phishingAwareness">
+                        <i class="fas fa-fish text-red-500"></i>
+                        <div>
+                            <h3 class="font-semibold">Phishing Attacks</h3>
+                            <p>Deceptive attempts to steal credentials through fake websites and malicious links</p>
+                        </div>
+                    </a>
+
+                    <a href="/impersonation" class="awareness-item bg-yellow-50 text-yellow-700" id="impersonationAwareness">
+                        <i class="fas fa-user-secret text-yellow-500"></i>
+                        <div>
+                            <h3 class="font-semibold">Identity Impersonation</h3>
+                            <p>Fraudsters posing as trusted entities like banks, tech companies, or government agencies</p>
+                        </div>
+                    </a>
+                    
+                    <a href="/financial" class="awareness-item bg-green-50 text-green-700" id="financialAwareness">
+                        <i class="fas fa-money-bill-wave text-green-500"></i>
+                        <div>
+                            <h3 class="font-semibold">Financial Fraud</h3>
+                            <p>Money transfer requests, fake lottery wins, and cryptocurrency investment scams</p>
+                        </div>
+                    </a>
+                    
+                    <a href="/urgent" class="awareness-item bg-purple-50 text-purple-700" id="urgentAwareness">
+                        <i class="fas fa-exclamation-circle text-purple-500"></i>
+                        <div>
+                            <h3 class="font-semibold">Urgency Manipulation</h3>
+                            <p>Creating false time pressure to bypass rational decision-making processes</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <div id="resultsTab" class="tab-content">
+            <div id="resultSection" class="fade-in">
+                <div class="risk-summary" id="riskSummary">
+                    <h3 id="riskTitle">Analysis Result</h3>
+                    <p id="riskDescription">Our AI system has analyzed your message using advanced pattern recognition and machine learning techniques.</p>
+                    
+                    <div class="progress-ring">
+                        <svg class="progress-ring__circle" width="200" height="200">
+                            <!-- Background circle -->
+                            <circle class="progress-ring__background"
+                                r="88"
+                                cx="100"
+                                cy="100"/>
+                            <!-- Progress circle -->
+                            <circle id="progress-ring-circle"
+                                stroke="#ef4444"
+                                stroke-width="12"
+                                fill="transparent"
+                                stroke-linecap="round"
+                                r="88"
+                                cx="100"
+                                cy="100"/>
+                        </svg>
+                        <div class="progress-ring__text">0%</div>
+                        <div class="progress-ring__label">Risk Confidence Score</div>
+                    </div>
+                    
+                    <div class="risk-indicators">
+                        <div id="riskIndicator" class="badge badge-success">Risk Level: Low</div>
+                        <div id="scamTypeValue" class="badge badge-danger hidden">Phishing</div>
+                        <div id="platformValue" class="badge badge-primary hidden">Email</div>
+                    </div>
+                    
+                    <div class="scroll-indicator">
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                </div>
+                
+                <div class="result-card">
+                    <div class="result-card-header">
+                        <h3 class="result-card-title">Pattern Recognition Analysis</h3>
+                    </div>
+                    
+                    <div class="result-card-body">
+                        <div class="result-section">
+                            <h4 class="result-section-title">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                Detected Scam Indicators
+                            </h4>
+                            <div class="section-description">
+                                These are the most suspicious phrases detected in your message, 
+                                ranked by their likelihood of appearing in scam communications.
+                            </div>
+                            <div id="scamIndicators" class="mb-4"></div>
+                        </div>
+                        
+                        <div id="bigramSection" class="ngram-section">
+                            <h4 class="result-section-title">
+                                <i class="fas fa-link"></i>
+                                Bigram Analysis (2-word patterns)
+                                <div class="tooltip ml-2">
+                                    <i class="fas fa-info-circle text-indigo-500"></i>
+                                    <span class="tooltip-text">Bigrams are consecutive 2-word combinations that frequently appear in scam messages. Examples: "click here", "verify account", "urgent action"</span>
+                                </div>
+                            </h4>
+                            <div class="section-description">
+                                Bigram analysis examines pairs of consecutive words to identify suspicious patterns. 
+                                Scammers often use specific 2-word combinations that create urgency or request sensitive actions.
+                            </div>
+                            <div id="bigramList"></div>
+                        </div>
+                        
+                        <div id="trigramSection" class="ngram-section">
+                            <h4 class="result-section-title">
+                                <i class="fas fa-project-diagram"></i>
+                                Trigram Analysis (3-word patterns)
+                                <div class="tooltip ml-2">
+                                    <i class="fas fa-info-circle text-indigo-500"></i>
+                                    <span class="tooltip-text">Trigrams are consecutive 3-word combinations that provide more context than bigrams. Examples: "verify your account", "click this link", "urgent action required"</span>
+                                </div>
+                            </h4>
+                            <div class="section-description">
+                                Trigram analysis examines 3-word sequences for more contextual pattern recognition. 
+                                These longer phrases often reveal the specific tactics used by scammers.
+                            </div>
+                            <div id="trigramList"></div>
+                        </div>
+                        
+                        <div id="highlightedTextSection" class="mt-6">
+                            <h4 class="result-section-title">
+                                <i class="fas fa-highlighter"></i>
+                                Pattern Visualization
+                                <div class="tooltip ml-2">
+                                    <i class="fas fa-info-circle text-indigo-500"></i>
+                                    <span class="tooltip-text">Visual representation showing detected patterns: Red highlights indicate bigrams, yellow highlights show trigrams</span>
+                                </div>
+                            </h4>
+                            <div class="section-description">
+                                Your message with suspicious patterns highlighted. 
+                                Red backgrounds indicate 2-word patterns (bigrams), yellow backgrounds show 3-word patterns (trigrams).
+                            </div>
+                            <div id="highlightedText" class="highlighted-text"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="section-divider"></div>
+                
+                <div class="result-card">
+                    <div class="result-card-header">
+                        <h3 class="result-card-title">Machine Learning Analysis</h3>
+                    </div>
+                    
+                    <div class="result-card-body">
+                        <div id="featureImportanceSection" class="feature-importance">
+                            <h4 class="result-section-title">
+                                <i class="fas fa-chart-bar"></i>
+                                TF-IDF Feature Analysis
+                                <div class="tooltip ml-2">
+                                    <i class="fas fa-info-circle text-indigo-500"></i>
+                                    <span class="tooltip-text">TF-IDF (Term Frequency-Inverse Document Frequency) measures how important each word is to the classification decision</span>
+                                </div>
+                            </h4>
+                            <div class="section-description">
+                                TF-IDF analysis calculates the statistical importance of each word. 
+                                Words that appear frequently in scams but rarely in legitimate messages get higher scores. 
+                                This helps identify the most influential words in the classification decision.
+                            </div>
+                            <div id="featureImportance"></div>
+                        </div>
+                        
+                        <div id="textProcessingSection" class="text-processing mt-6">
+                            <h4 class="result-section-title">
+                                <i class="fas fa-cogs"></i>
+                                Text Preprocessing Pipeline
+                            </h4>
+                            <div class="section-description">
+                                Shows how your message is cleaned and processed before analysis. 
+                                This includes removing special characters, converting to lowercase, and filtering out common words (stopwords).
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
+                                <div>
+                                    <h5 class="font-medium mb-2">Original Message</h5>
+                                    <pre id="originalText" class="whitespace-pre-wrap"></pre>
+                                </div>
+                                <div>
+                                    <h5 class="font-medium mb-2">Processed Text</h5>
+                                    <pre id="cleanedText" class="whitespace-pre-wrap"></pre>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div id="debugSection" class="debug-section">
+                            <div class="debug-title" id="debugToggle">
+                                <i class="fas fa-bug"></i>
+                                Technical Debug Information
+                                <i class="fas fa-chevron-down ml-auto"></i>
+                            </div>
+                            <div class="debug-content" id="debugContent">
+                                <div class="section-description">
+                                    Technical details about the analysis process including 
+                                    pattern matching statistics and algorithm performance metrics.
+                                </div>
+                                <div id="debugInfo"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mt-8 flex flex-col md:flex-row gap-4">
+                    <button id="flagBtn" class="btn btn-warning flex-1">
+                        <i class="fas fa-flag"></i> Provide Feedback
+                    </button>
+                    
+                    <button id="backToAnalysisBtn" class="btn btn-primary flex-1">
+                        <i class="fas fa-arrow-left"></i> Analyze Another Message
+                    </button>
+                </div>
+                
+                <div id="flagOptions" class="mt-6">
+                    <h4 class="font-semibold mb-4">Machine Learning Feedback</h4>
+                    <div class="section-description">
+                        Your feedback helps train our machine learning model. 
+                        The system learns from each submission to improve future detection accuracy.
+                    </div>
+                    <div class="mb-4">
+                        <label class="form-label" for="messageType">
+                            Message Classification
+                        </label>
+                        <select id="messageType" class="form-select">
+                            <option value="">Select message type...</option>
+                            <option value="scam">Scam/Suspicious</option>
+                            <option value="legitimate">Legitimate/Safe</option>
+                        </select>
+                    </div>
+                    <div id="scamTypeGroup" class="mb-4 hidden">
+                        <label class="form-label" for="scamType">
+                            Scam Category
+                        </label>
+                        <select id="scamType" class="form-select">
+                            <option value="">Select scam type...</option>
+                            <option value="phishing">Phishing</option>
+                            <option value="impersonation">Impersonation</option>
+                            <option value="financial">Financial</option>
+                            <option value="urgent">Urgent Action Required</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    <div class="mb-4">
+                        <label class="form-label" for="platform">
+                            Communication Platform
+                        </label>
+                        <select id="platform" class="form-select">
+                            <option value="">Select platform...</option>
+                            <option value="whatsapp">WhatsApp</option>
+                            <option value="instagram">Instagram</option>
+                            <option value="telegram">Telegram</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    <div id="trainingInfo" class="training-info hidden">
+                        <i class="fas fa-robot"></i>
+                        <span>Retraining machine learning model with your feedback...</span>
+                    </div>
+
+                    <div id="learnedNgramsSection" class="mt-4 hidden">
+                        <h4 class="font-semibold mb-2">Newly Learned Patterns</h4>
+                        <p class="text-sm text-gray-600 mb-2">The system has identified these new suspicious patterns from your feedback:</p>
+                        <div id="learnedNgramsList" class="bg-blue-50 p-3 rounded-md"></div>
+                    </div>
+                    <button id="submitFlagBtn" class="btn btn-success w-full mt-4">
+                        <i class="fas fa-check"></i> Submit Feedback
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <div id="statsTab" class="tab-content">
+            <div id="statsSection" class="fade-in">
+                <div class="result-card">
+                    <div class="result-card-header">
+                        <h3 class="result-card-title">System Performance Statistics</h3>
+                        <button id="refreshStatsBtn" class="btn btn-primary btn-sm">
+                            <i class="fas fa-sync-alt"></i> Refresh
+                        </button>
+                    </div>
+                    
+                    <div class="section-description">
+                        These statistics show how our machine learning model is performing 
+                        and growing with user feedback. More training data generally leads to better accuracy.
+                    </div>
+                    
+                    <div class="stats-grid">
+                        <div class="stats-card">
+                            <h4>Training Dataset</h4>
+                            <div class="stats-item">
+                                <span class="stats-label">Total Samples:</span>
+                                <span id="totalSamples" class="stats-value">0</span>
+                            </div>
+                            <div class="stats-item">
+                                <span class="stats-label">Scam Samples:</span>
+                                <span id="scamSamples" class="stats-value">0</span>
+                            </div>
+                            <div class="stats-item">
+                                <span class="stats-label">Legitimate Samples:</span>
+                                <span id="nonScamSamples" class="stats-value">0</span>
+                            </div>
+                        </div>
+                        
+                        <div class="stats-card">
+                            <h4>User Feedback</h4>
+                            <div class="stats-item">
+                                <span class="stats-label">Total Flagged:</span>
+                                <span id="totalFlagged" class="stats-value">0</span>
+                            </div>
+                            <div class="stats-item">
+                                <span class="stats-label">Flagged as Scam:</span>
+                                <span id="flaggedScam" class="stats-value">0</span>
+                            </div>
+                            <div class="stats-item">
+                                <span class="stats-label">Flagged as Legitimate:</span>
+                                <span id="flaggedNonScam" class="stats-value">0</span>
+                            </div>
+                        </div>
+                        
+                        <div class="stats-card">
+                            <h4>Scam Categories</h4>
+                            <div id="scamTypesStats"></div>
+                        </div>
+                        
+                        <div class="stats-card">
+                            <h4>Communication Platforms</h4>
+                            <div id="platformsStats"></div>
+                        </div>
+                        
+                        <div class="stats-card">
+                            <h4>Pattern Recognition Database</h4>
+                            <div class="stats-item">
+                                <span class="stats-label">Known Bigrams:</span>
+                                <span id="bigramCount" class="stats-value">0</span>
+                            </div>
+                            <div class="stats-item">
+                                <span class="stats-label">Known Trigrams:</span>
+                                <span id="trigramCount" class="stats-value">0</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    // Progress ring setup with dynamic colors
+    const circle = document.getElementById('progress-ring-circle');
+    const riskSummary = document.getElementById('riskSummary'); // Define globally
+
+    let setProgress; // Declare globally
+
+    if (circle) {
+        const radius = circle.r.baseVal.value;
+        const circumference = radius * 2 * Math.PI;
+        circle.style.strokeDasharray = `${circumference} ${circumference}`;
+        circle.style.strokeDashoffset = circumference;
+
+        setProgress = function(percent, riskLevel) {
+            if (circle) {
+                const offset = circumference - percent / 100 * circumference;
+                circle.style.strokeDashoffset = offset;
+                
+                // Format the percentage to avoid overflow
+                const displayPercent = Math.round(percent * 10) / 10;
+                const textElement = document.querySelector('.progress-ring__text');
+                textElement.textContent = `${displayPercent}%`;
+                
+                // Determine color directly from percentage, not from backend risk level
+                textElement.className = 'progress-ring__text';
+                
+                // Apply color based on percentage thresholds
+                if (percent < 40) {
+                    textElement.classList.add('low-risk');
+                    circle.setAttribute('stroke', '#10b981'); // Green
+                    riskSummary.classList.remove('medium-risk', 'high-risk');
+                    riskSummary.classList.add('low-risk');
+                } else if (percent < 70) {
+                    textElement.classList.add('medium-risk');
+                    circle.setAttribute('stroke', '#f59e0b'); // Orange/Yellow
+                    riskSummary.classList.remove('low-risk', 'high-risk');
+                    riskSummary.classList.add('medium-risk');
+                } else {
+                    textElement.classList.add('high-risk');
+                    circle.setAttribute('stroke', '#ef4444'); // Red
+                    riskSummary.classList.remove('low-risk', 'medium-risk');
+                    riskSummary.classList.add('high-risk');
+                }
+            }
+        };
+    } else {
+        console.error('Progress ring circle not found');
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        // Tab navigation
+        const tabs = document.querySelectorAll('.tab');
+        const tabContents = document.querySelectorAll('.tab-content');
+        
+        tabs.forEach(tab => {
+            tab.addEventListener('click', function() {
+                const tabId = this.getAttribute('data-tab');
+                
+                // Remove active class from all tabs and contents
+                tabs.forEach(t => t.classList.remove('active'));
+                tabContents.forEach(c => c.classList.remove('active'));
+                
+                // Add active class to clicked tab and corresponding content
+                this.classList.add('active');
+                document.getElementById(`${tabId}Tab`).classList.add('active');
+            });
+        });
+        
+        // Get DOM elements
+        const messageInput = document.getElementById('messageInput');
+        const analyzeBtn = document.getElementById('analyzeBtn');
+        const clearBtn = document.getElementById('clearBtn');
+        const resultSection = document.getElementById('resultSection');
+        const riskIndicator = document.getElementById('riskIndicator');
+        const riskTitle = document.getElementById('riskTitle');
+        const riskDescription = document.getElementById('riskDescription');
+        const scamIndicators = document.getElementById('scamIndicators');
+        const originalText = document.getElementById('originalText');
+        const cleanedText = document.getElementById('cleanedText');
+        const featureImportance = document.getElementById('featureImportance');
+        const bigramList = document.getElementById('bigramList');
+        const trigramList = document.getElementById('trigramList');
+        const highlightedText = document.getElementById('highlightedText');
+        const flagBtn = document.getElementById('flagBtn');
+        const flagOptions = document.getElementById('flagOptions');
+        const submitFlagBtn = document.getElementById('submitFlagBtn');
+        const messageType = document.getElementById('messageType');
+        const scamType = document.getElementById('scamType');
+        const scamTypeGroup = document.getElementById('scamTypeGroup');
+        const platform = document.getElementById('platform');
+        const awarenessItems = document.querySelectorAll('.awareness-item');
+        const awarenessSection = document.getElementById('awarenessSection');
+        const loading = document.getElementById('loading');
+        const refreshStatsBtn = document.getElementById('refreshStatsBtn');
+        const scamTypeValue = document.getElementById('scamTypeValue');
+        const trainingInfo = document.getElementById('trainingInfo');
+        const backToAnalysisBtn = document.getElementById('backToAnalysisBtn');
+        const debugToggle = document.getElementById('debugToggle');
+        const debugContent = document.getElementById('debugContent');
+        const debugInfo = document.getElementById('debugInfo');
+
+        console.log('DOM fully loaded and parsed');
+        
+        // Debug toggle
+        if (debugToggle) {
+            debugToggle.addEventListener('click', function() {
+                debugContent.classList.toggle('visible');
+                const icon = this.querySelector('.fa-chevron-down, .fa-chevron-up');
+                if (debugContent.classList.contains('visible')) {
+                    icon.classList.replace('fa-chevron-down', 'fa-chevron-up');
+                } else {
+                    icon.classList.replace('fa-chevron-up', 'fa-chevron-down');
+                }
+            });
+        }
+        
+        // Back to analysis button
+        if (backToAnalysisBtn) {
+            backToAnalysisBtn.addEventListener('click', function() {
+                document.querySelector('[data-tab="analysis"]').click();
+            });
+        }
+
+        function displayNgrams(ngrams) {
+            // Separate bigrams and trigrams
+            const bigrams = ngrams.filter(ngram => ngram.type === 'bigram');
+            const trigrams = ngrams.filter(ngram => ngram.type === 'trigram');
+            
+            // Display bigrams
+            if (bigrams.length === 0) {
+                bigramList.innerHTML = '<p class="text-gray-500">No suspicious 2-word patterns detected</p>';
+            } else {
+                const bigramHtml = bigrams.map(ngram => {
+                    const scoreClass = ngram.score >= 0.8 ? 'text-red-600' : 'text-yellow-600';
+                    const borderColor = ngram.score >= 0.8 ? 'border-red-400' : 'border-yellow-400';
+                    return `
+                    <div class="ngram-item ${borderColor}" style="border-left-color: ${ngram.score >= 0.8 ? '#f87171' : '#fbbf24'}">
+                        <div class="ngram-text">${ngram.ngram}</div>
+                        <div class="ngram-score ${scoreClass}">${(ngram.score * 100).toFixed(0)}%</div>
+                        <div class="ngram-type">Bigram</div>
+                    </div>
+                `;
+                }).join('');
+                bigramList.innerHTML = bigramHtml;
+            }
+            
+            // Display trigrams
+            if (trigrams.length === 0) {
+                trigramList.innerHTML = '<p class="text-gray-500">No suspicious 3-word patterns detected</p>';
+            } else {
+                const trigramHtml = trigrams.map(ngram => {
+                    const scoreClass = ngram.score >= 0.8 ? 'text-red-600' : 'text-yellow-600';
+                    const borderColor = ngram.score >= 0.8 ? 'border-red-400' : 'border-yellow-400';
+                    return `
+                    <div class="ngram-item ${borderColor}" style="border-left-color: ${ngram.score >= 0.8 ? '#f87171' : '#fbbf24'}">
+                        <div class="ngram-text">${ngram.ngram}</div>
+                        <div class="ngram-score ${scoreClass}">${(ngram.score * 100).toFixed(0)}%</div>
+                        <div class="ngram-type">Trigram</div>
+                    </div>
+                `;
+                }).join('');
+                trigramList.innerHTML = trigramHtml;
+            }
+        }
+        
+        function highlightNgramsInText(text, ngrams) {
+            if (!ngrams || ngrams.length === 0) {
+                return text;
+            }
+            
+            // Sort ngrams by length (longest first) to avoid highlighting issues
+            const sortedNgrams = [...ngrams].sort((a, b) => b.ngram.length - a.ngram.length);
+            
+            let highlightedText = text;
+            
+            // Replace ngrams with highlighted versions
+            sortedNgrams.forEach(ngram => {
+                // Create a regex that's more flexible with word boundaries
+                // This will match the ngram even if it's part of a larger word
+                const pattern = new RegExp(ngram.ngram.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&'), 'gi');
+                const highlightClass = ngram.type === 'bigram' ? 'highlight-bigram' : 'highlight-trigram';
+                const scorePercent = (ngram.score * 100).toFixed(0);
+                
+                highlightedText = highlightedText.replace(pattern, match =>
+                    `<span class="${highlightClass}">
+                    ${match}
+                    <span class="highlight-tooltip">${ngram.type} - ${scorePercent}% suspicious</span>
+                </span>`
+                );
+            });
+            
+            return highlightedText;
+        }
+
+        function displayFeatureImportance(features) {
+            if (!features || features.length === 0) {
+                featureImportance.innerHTML = '<p class="text-gray-500">No significant features found</p>';
+                return;
+            }
+            
+            // Find the maximum score for normalization
+            const maxScore = Math.max(...features.map(f => f[1]));
+            
+            const featureHtml = features.map(([feature, score]) => {
+                const normalizedScore = (score / maxScore) * 100;
+                return `
+                <div class="feature-bar">
+                    <div class="feature-name">${feature}</div>
+                    <div class="feature-value-bar">
+                        <div class="feature-value-fill" style="width: ${normalizedScore}%"></div>
+                    </div>
+                    <div class="feature-score">${score.toFixed(3)}</div>
+                </div>
+            `;
+            }).join('');
+            
+            featureImportance.innerHTML = featureHtml;
+        }
+        
+        function displayDebugInfo(debug) {
+            if (!debug) {
+                debugInfo.innerHTML = '<p>No debug information available</p>';
+                return;
+            }
+            
+            const debugHtml = `
+            <div class="debug-item"><strong>Text Length:</strong> ${debug.text_length}</div>
+            <div class="debug-item"><strong>Extracted Bigrams:</strong> ${debug.text_bigrams}</div>
+            <div class="debug-item"><strong>Extracted Trigrams:</strong> ${debug.text_trigrams}</div>
+            <div class="debug-item"><strong>Known Suspicious Bigrams:</strong> ${debug.suspicious_bigrams}</div>
+            <div class="debug-item"><strong>Known Suspicious Trigrams:</strong> ${debug.suspicious_trigrams}</div>
+            <div class="debug-item"><strong>Found N-grams:</strong> ${debug.found_ngrams}</div>
+            <div class="debug-item"><strong>Pattern Matches:</strong></div>
+            <ul class="list-disc pl-5 mt-2">
+                ${debug.matches.map(match => `<li>${match}</li>`).join('')}
+            </ul>
+        `;
+            
+            debugInfo.innerHTML = debugHtml;
+        }
+
+        // Clear button functionality
+        if (clearBtn) {
+            clearBtn.addEventListener('click', function() {
+                console.log('Clear button clicked');
+                messageInput.value = '';
+                awarenessItems.forEach(item => item.classList.remove('highlighted'));
+                awarenessSection.classList.remove('highlighted');
+            });
+        }
+
+        // Flag button functionality
+        if (flagBtn) {
+            flagBtn.addEventListener('click', function() {
+                flagOptions.classList.toggle('visible');
+                const isVisible = flagOptions.classList.contains('visible');
+                flagBtn.innerHTML = isVisible ?
+                    '<i class="fas fa-times"></i> Hide Feedback Form' :
+                    '<i class="fas fa-flag"></i> Provide Feedback';
+                
+                if (!isVisible) {
+                    messageType.value = '';
+                    scamType.value = '';
+                    trainingInfo.classList.add('hidden');
+                }
+                
+                validateForm();
+            });
+        }
+
+        if (messageType) {
+            messageType.addEventListener('change', function() {
+                if (this.value === 'scam') {
+                    scamTypeGroup.classList.remove('hidden');
+                } else {
+                    scamTypeGroup.classList.add('hidden');
+                    scamType.value = '';
+                }
+                validateForm();
+            });
+        }
+
+        [messageType, scamType, platform].forEach(select => {
+            if (select) {
+                select.addEventListener('change', validateForm);
+            }
+        });
+
+        function validateForm() {
+            if (!submitFlagBtn || !messageType || !platform) return;
+            
+            const isValid = messageType.value &&
+                (messageType.value !== 'scam' || scamType.value) &&
+                platform.value;
+            submitFlagBtn.disabled = !isValid;
+            submitFlagBtn.classList.toggle('opacity-50', !isValid);
+        }
+        
+        if (refreshStatsBtn) {
+            refreshStatsBtn.addEventListener('click', function() {
+                loadStats();
+            });
+        }
+        
+        async function loadStats() {
+            try {
+                const response = await fetch('/api/stats');
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const stats = await response.json();
+                
+                // Update stats display
+                const totalSamplesEl = document.getElementById('totalSamples');
+                const scamSamplesEl = document.getElementById('scamSamples');
+                const nonScamSamplesEl = document.getElementById('nonScamSamples');
+                const totalFlaggedEl = document.getElementById('totalFlagged');
+                const flaggedScamEl = document.getElementById('flaggedScam');
+                const flaggedNonScamEl = document.getElementById('flaggedNonScamEl');
+                const bigramCountEl = document.getElementById('bigramCount');
+                const trigramCountEl = document.getElementById('trigramCount');
+                
+                if (totalSamplesEl) totalSamplesEl.textContent = stats.total_samples || 0;
+                if (scamSamplesEl) scamSamplesEl.textContent = stats.scam_samples || 0;
+                if (nonScamSamplesEl) nonScamSamplesEl.textContent = stats.non_scam_samples || 0;
+                if (totalFlaggedEl) totalFlaggedEl.textContent = stats.flagged_messages || 0;
+                if (flaggedScamEl) flaggedScamEl.textContent = stats.flagged_scams || 0;
+                if (flaggedNonScamEl) flaggedNonScamEl.textContent = stats.flagged_non_scams || 0;
+                
+                // Update N-gram counts
+                if (bigramCountEl) bigramCountEl.textContent = stats.suspicious_ngrams?.bigrams || 0;
+                if (trigramCountEl) trigramCountEl.textContent = stats.suspicious_ngrams?.trigrams || 0;
+                
+                // Display scam types
+                const scamTypesHtml = Object.entries(stats.scam_types || {})
+                    .map(([type, count]) => `<div class="stats-item"><span class="stats-label">${type}:</span> <span class="stats-value">${count}</span></div>`)
+                    .join('');
+                const scamTypesStatsEl = document.getElementById('scamTypesStats');
+                if (scamTypesStatsEl) {
+                    scamTypesStatsEl.innerHTML = scamTypesHtml || '<div class="stats-item">No data available</div>';
+                }
+                
+                // Display platforms - Fixed the broken string concatenation
+                const platformsHtml = Object.entries(stats.platforms || {})
+                    .map(([platform, count]) => `<div class="stats-item"><span class="stats-label">${platform}:</span> <span class="stats-value">${count}</span></div>`)
+                    .join('');
+                const platformsStatsEl = document.getElementById('platformsStats');
+                if (platformsStatsEl) {
+                    platformsStatsEl.innerHTML = platformsHtml || '<div class="stats-item">No data available</div>';
+                }
+                
+            } catch (error) {
+                console.error('Error loading stats:', error);
+                // Don't show alert for stats loading failure, just log it
+                console.warn('Failed to load statistics - this is normal if backend is not running');
+            }
+        }
+
+        // Analyze button functionality
+        if (analyzeBtn) {
+            analyzeBtn.addEventListener('click', async function() {
+                console.log('Analyze button clicked');
+                const message = messageInput.value.trim();
+                if (!message) {
+                    alert('Please enter a message to analyze');
+                    return;
+                }
+                
+                // Show loading indicator
+                if (loading) loading.style.display = 'block';
+
+                try {
+                    const response = await fetch('/api/detect', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ message })
+                    });
+
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+
+                    const result = await response.json();
+                    console.log('Analysis result:', result);
+                    
+                    // Hide loading indicator
+                    if (loading) loading.style.display = 'none';
+                    
+                    // Switch to results tab
+                    const resultsTab = document.querySelector('[data-tab="results"]');
+                    if (resultsTab) resultsTab.click();
+                    
+                    // Update risk indicator with proper badge colors based on confidence
+                    let badgeClass = 'badge-success';
+                    let riskLevel = 'Low';
+
+                    // Determine risk level based on confidence percentage
+                    if (result.confidence >= 70) {
+                        badgeClass = 'badge-danger';
+                        riskLevel = 'High';
+                        if (riskTitle) riskTitle.textContent = 'High Risk Detected';
+                        if (riskDescription) riskDescription.textContent = 'This message contains multiple indicators of a potential scam. Review the details below and exercise extreme caution.';
+                    } else if (result.confidence >= 40) {
+                        badgeClass = 'badge-medium';
+                        riskLevel = 'Medium';
+                        if (riskTitle) riskTitle.textContent = 'Medium Risk Detected';
+                        if (riskDescription) riskDescription.textContent = 'This message shows some suspicious patterns. Please verify the sender and be cautious before taking any action.';
+                    } else {
+                        riskLevel = 'Low';
+                        if (riskTitle) riskTitle.textContent = 'Low Risk Detected';
+                        if (riskDescription) riskDescription.textContent = 'This message appears to be legitimate, but always stay vigilant.';
+                    }
+
+                    if (riskIndicator) {
+                        riskIndicator.className = `badge ${badgeClass}`;
+                        riskIndicator.textContent = `Risk Level: ${riskLevel}`;
+                    }
+
+                    // Update confidence score with confidence percentage
+                    if (typeof setProgress === 'function') {
+                        setProgress(result.confidence, riskLevel);
+                    }
+                    
+                    // ML-BASED SCAM TYPE DISPLAY
+                    console.log('=== FRONTEND ML SCAM TYPE LOGIC ===');
+                    console.log('Backend scam_type:', result.scam_type);
+                    console.log('Backend confidence:', result.confidence);
+
+                    // Always hide first
+                    if (scamTypeValue) scamTypeValue.classList.add('hidden');
+                    awarenessItems.forEach(item => item.classList.remove('highlighted'));
+                    awarenessSection.classList.remove('highlighted');
+
+                    // Only show if ML model returned a valid scam type
+                    if (result.scam_type && 
+                        result.scam_type !== 'none' && 
+                        result.scam_type !== null && 
+                        result.scam_type !== undefined &&
+                        typeof result.scam_type === 'string' &&
+                        result.scam_type.trim() !== '') {
+                        
+                        console.log('SHOWING ML-predicted scam type:', result.scam_type);
+                        if (scamTypeValue) {
+                            scamTypeValue.classList.remove('hidden');
+                            scamTypeValue.textContent = result.scam_type.charAt(0).toUpperCase() + result.scam_type.slice(1);
+                        }
+                        highlightAwarenessItem(result.scam_type);
+                    } else {
+                        console.log('NOT showing scam type - ML model did not return valid type');
+                    }
+                    console.log('=== END FRONTEND ML SCAM TYPE LOGIC ===');
+                    
+                    // Display platform information
+                    const platformValue = document.getElementById('platformValue');
+                    if (platformValue && result.platform) {
+                        platformValue.classList.remove('hidden');
+                        platformValue.textContent = result.platform.charAt(0).toUpperCase() + result.platform.slice(1);
+                    } else if (platformValue) {
+                        platformValue.classList.add('hidden');
+                    }
+                    
+                    // Display text processing results
+                    if (result.processed_data) {
+                        if (originalText) originalText.textContent = result.processed_data.original_text;
+                        if (cleanedText) cleanedText.textContent = result.processed_data.cleaned_text;
+                    
+                        // Display scam indicators
+                        if (result.suspicious_ngrams && scamIndicators) {
+                            const indicators = result.suspicious_ngrams.slice(0, 5).map(ngram =>
+                                `<span class="badge badge-${ngram.score >= 0.8 ? 'danger' : 'warning'}">${ngram.ngram}</span>`
+                            ).join(' ');
+                        
+                            scamIndicators.innerHTML = indicators || '<span class="text-gray-500">No specific scam indicators found</span>';
+                        }
+                    }
+                
+                    // Display n-grams
+                    if (result.suspicious_ngrams) {
+                        displayNgrams(result.suspicious_ngrams);
+                    
+                        // Highlight n-grams in the text
+                        if (highlightedText) {
+                            highlightedText.innerHTML = highlightNgramsInText(message, result.suspicious_ngrams);
+                        }
+                    } else {
+                        if (bigramList) bigramList.innerHTML = '<p class="text-gray-500">No suspicious 2-word patterns detected</p>';
+                        if (trigramList) trigramList.innerHTML = '<p class="text-gray-500">No suspicious 3-word patterns detected</p>';
+                        if (highlightedText) highlightedText.textContent = message;
+                    }
+                
+                    // Display feature importance
+                    if (result.important_features) {
+                        displayFeatureImportance(result.important_features);
+                    }
+                
+                    // Display debug information
+                    if (result.debug_info) {
+                        displayDebugInfo(result.debug_info);
+                    }
+                
+                } catch (error) {
+                    console.error('Error during analysis:', error);
+                    alert('An error occurred while analyzing the message. This is normal if the backend server is not running.');
+                    if (loading) loading.style.display = 'none';
+                }
+            });
+        }
+    
+        function highlightAwarenessItem(scamType) {
+            awarenessItems.forEach(item => item.classList.remove('highlighted'));
+        
+            if (scamType) {
+                const itemId = `${scamType.toLowerCase()}Awareness`;
+                const item = document.getElementById(itemId);
+                if (item) {
+                    item.classList.add('highlighted');
+                    awarenessSection.classList.add('highlighted');
+                }
+            }
+        }
+
+        // Submit feedback functionality
+        if (submitFlagBtn) {
+            submitFlagBtn.addEventListener('click', async function() {
+                console.log('Submit flag button clicked');
+                const message = messageInput.value.trim();
+                const type = messageType ? messageType.value : '';
+                const selectedScamType = scamType ? scamType.value : '';
+                const selectedPlatform = platform ? platform.value : '';
+
+                if (!message || !type || !selectedPlatform || (type === 'scam' && !selectedScamType)) {
+                    alert('Please fill in all fields');
+                    return;
+                }
+            
+                // Show loading
+                submitFlagBtn.disabled = true;
+                submitFlagBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Submitting...';
+                if (trainingInfo) trainingInfo.classList.remove('hidden');
+            
+                // Hide any previously shown learned n-grams
+                const learnedNgramsSection = document.getElementById('learnedNgramsSection');
+                if (learnedNgramsSection) learnedNgramsSection.classList.add('hidden');
+
+                try {
+                    const response = await fetch('/api/feedback', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            message,
+                            is_scam: type === 'scam',
+                            scam_type: type === 'scam' ? selectedScamType : 'legitimate',
+                            platform: selectedPlatform
+                        })
+                    });
+
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+
+                    const result = await response.json();
+                    if (result.status === 'success') {
+                        // Always show training info
+                        const trainingInfoText = document.querySelector('#trainingInfo span');
+                        if (trainingInfoText) {
+                            trainingInfoText.textContent = `Model retrained with ${result.new_training_size} samples`;
+                        }
+                    
+                        // Display newly learned n-grams if any
+                        if (result.new_ngrams && result.new_ngrams.length > 0) {
+                            const learnedNgramsList = document.getElementById('learnedNgramsList');
+                        
+                            if (learnedNgramsList && learnedNgramsSection) {
+                                const ngramsHtml = result.new_ngrams.map(ngram => `
+                                <div class="mb-2 p-2 bg-white rounded shadow-sm">
+                                    <div class="font-medium">${ngram.ngram}</div>
+                                    <div class="text-xs text-gray-500">Type: ${ngram.type}, Initial score: ${(ngram.score * 100).toFixed(0)}%</div>
+                                </div>
+                            `).join('');
+                        
+                                learnedNgramsList.innerHTML = ngramsHtml;
+                                learnedNgramsSection.classList.remove('hidden');
+                            }
+                        } else {
+                            // Show a message even if no new n-grams were learned
+                            const learnedNgramsList = document.getElementById('learnedNgramsList');
+                        
+                            if (learnedNgramsList && learnedNgramsSection) {
+                                learnedNgramsList.innerHTML = `
+                                <div class="mb-2 p-2 bg-white rounded shadow-sm">
+                                    <div class="font-medium">No new patterns learned</div>
+                                    <div class="text-xs text-gray-500">The message was added to the training data, but no new suspicious patterns were identified.</div>
+                                </div>
+                            `;
+                                learnedNgramsSection.classList.remove('hidden');
+                            }
+                        }
+                    
+                        // Keep this section visible for a while before completing the process
+                        setTimeout(() => {
+                            completeSubmission(result);
+                        }, 5000); // Increased to 5 seconds for better visibility
+                    }
+                } catch (error) {
+                    console.error('Error during feedback submission:', error);
+                    alert('An error occurred while submitting feedback. This is normal if the backend server is not running.');
+                    submitFlagBtn.disabled = false;
+                    submitFlagBtn.innerHTML = '<i class="fas fa-check"></i> Submit Feedback';
+                    if (trainingInfo) trainingInfo.classList.add('hidden');
+                }
+            
+                function completeSubmission(result) {
+                    alert('Thank you for your feedback! The message has been flagged and the model has been retrained.');
+                    if (messageInput) messageInput.value = '';
+                    if (flagOptions) flagOptions.classList.remove('visible');
+                    if (flagBtn) flagBtn.innerHTML = '<i class="fas fa-flag"></i> Provide Feedback';
+                    awarenessItems.forEach(item => item.classList.remove('highlighted'));
+                    if (awarenessSection) awarenessSection.classList.remove('highlighted');
+                
+                    // Reset form
+                    if (messageType) messageType.value = '';
+                    if (scamType) scamType.value = '';
+                    if (platform) platform.value = '';
+                    if (trainingInfo) trainingInfo.classList.add('hidden');
+                    const learnedNgramsSection = document.getElementById('learnedNgramsSection');
+                    if (learnedNgramsSection) learnedNgramsSection.classList.add('hidden');
+                
+                    // Switch back to analysis tab
+                    const analysisTab = document.querySelector('[data-tab="analysis"]');
+                    if (analysisTab) analysisTab.click();
+                
+                    // Update stats to reflect the new training data
+                    loadStats();
+                
+                    // Reset submit button
+                    submitFlagBtn.disabled = false;
+                    submitFlagBtn.innerHTML = '<i class="fas fa-check"></i> Submit Feedback';
+                }
+            });
+        }
+
+        // Load stats on initial page load
+        loadStats();
+
+        console.log('All event listeners set up');
+    });
+
+    async function testBackendConnection() {
+        try {
+            const response = await fetch('/api/test');
+            if (response.ok) {
+                console.log('Backend connection successful');
+            } else {
+                console.error('Backend connection failed');
+            }
+        } catch (error) {
+            console.error('Error testing backend connection:', error);
+        }
+    }
+
+    // Call the test function when the page loads
+    testBackendConnection();
+</script>
+</body>
+</html>

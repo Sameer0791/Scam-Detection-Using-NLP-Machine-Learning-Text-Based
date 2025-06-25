@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Urgent Action Scams - Scam Detection</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --primary-dark: #3730a3;
+            --primary-light: #818cf8;
+            --purple: #8b5cf6;
+            --purple-dark: #6d28d9;
+            --purple-light: #ede9fe;
+            --gray-50: #f9fafb;
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-300: #d1d5db;
+            --gray-400: #9ca3af;
+            --gray-500: #6b7280;
+            --gray-600: #4b5563;
+            --gray-700: #374151;
+            --gray-800: #1f2937;
+            --gray-900: #111827;
+        }
+        
+        body {
+            font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--gray-50);
+            color: var(--gray-700);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--gray-200);
+        }
+        
+        .header-logo {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+        }
+        
+        .header-logo i {
+            margin-right: 12px;
+            font-size: 32px;
+        }
+        
+        .card {
+            background-color: #ffffff;
+            border-radius: 16px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.1);
+            padding: 24px;
+            margin-bottom: 24px;
+            transition: all 0.3s ease;
+            border: 1px solid var(--gray-200);
+        }
+        
+        .btn {
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-weight: 600;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            border: none;
+            outline: none;
+        }
+        
+        .btn i {
+            margin-right: 10px;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 6px rgba(79, 70, 229, 0.2);
+        }
+        
+        .example-card {
+            border-left: 4px solid var(--purple);
+            background-color: var(--purple-light);
+            padding: 16px;
+            margin-bottom: 16px;
+            border-radius: 8px;
+        }
+        
+        .example-card h4 {
+            color: var(--purple-dark);
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        
+        .example-card p {
+            color: var(--gray-700);
+        }
+        
+        .tip-card {
+            border-left: 4px solid var(--primary);
+            background-color: #e0e7ff;
+            padding: 16px;
+            margin-bottom: 16px;
+            border-radius: 8px;
+        }
+        
+        .tip-card h4 {
+            color: var(--primary-dark);
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        
+        .tip-card p {
+            color: var(--gray-700);
+        }
+        
+        .section-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--gray-800);
+            margin-bottom: 16px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid var(--primary-light);
+        }
+        
+        .subsection-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--gray-800);
+            margin-top: 24px;
+            margin-bottom: 16px;
+        }
+        
+        ul.checklist {
+            list-style: none;
+            padding-left: 0;
+            margin-bottom: 24px;
+        }
+        
+        ul.checklist li {
+            position: relative;
+            padding-left: 30px;
+            margin-bottom: 12px;
+        }
+        
+        ul.checklist li:before {
+            content: '\f00c';
+            font-family: 'Font Awesome 5 Free';
+            font-weight: 900;
+            position: absolute;
+            left: 0;
+            top: 2px;
+            color: var(--primary);
+        }
+        
+        ul.warning-list {
+            list-style: none;
+            padding-left: 0;
+            margin-bottom: 24px;
+        }
+        
+        ul.warning-list li {
+            position: relative;
+            padding-left: 30px;
+            margin-bottom: 12px;
+        }
+        
+        ul.warning-list li:before {
+            content: '\f071';
+            font-family: 'Font Awesome 5 Free';
+            font-weight: 900;
+            position: absolute;
+            left: 0;
+            top: 2px;
+            color: var(--purple);
+        }
+        
+        .image-container {
+            margin: 24px 0;
+            text-align: center;
+        }
+        
+        .image-container img {
+            max-width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .image-caption {
+            margin-top: 8px;
+            font-size: 14px;
+            color: var(--gray-600);
+            text-align: center;
+        }
+        
+        .back-button {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 100;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 16px;
+            }
+            
+            .card {
+                padding: 20px;
+            }
+            
+            .section-title {
+                font-size: 22px;
+            }
+            
+            .subsection-title {
+                font-size: 18px;
+            }
+            
+            .back-button {
+                bottom: 20px;
+                right: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container mx-auto px-4 py-8">
+        <div class="header">
+            <div class="header-logo">
+                <i class="fas fa-exclamation-circle text-purple-500"></i>
+                <span>Urgent Action Scams</span>
+            </div>
+        </div>
+        
+        <div class="card">
+            <h1 class="section-title">What are Urgency Scams?</h1>
+            <p class="mb-4">
+                Urgency scams create a false sense of emergency to pressure you into taking immediate action without time to think or verify the request. By exploiting your fear, anxiety, or desire to avoid negative consequences, scammers hope to bypass your normal critical thinking processes.
+            </p>
+            
+            <p class="mb-4">
+                These scams are particularly effective because they trigger emotional responses that can override logical thinking. When we feel that something urgent requires our immediate attention, we're more likely to act quickly without proper verification or consideration.
+            </p>
+            
+            <div class="example-card">
+                <h4>Real-World Example</h4>
+                <p>
+                    You receive a text message claiming to be from your bank stating that suspicious activity has been detected on your account and it will be frozen in the next hour unless you click a link and verify your identity immediately. The message creates panic, leading you to click without checking if the message is legitimate.
+                </p>
+            </div>
+            
+            <h2 class="subsection-title">Common Types of Urgency Scams</h2>
+            
+            <ul class="warning-list">
+                <li>
+                    <strong>Account Suspension Threats:</strong> Claims that your account will be suspended, closed, or limited unless you take immediate action.
+                </li>
+                <li>
+                    <strong>Security Breach Alerts:</strong> Fake notifications about unauthorized access to your accounts requiring immediate verification.
+                </li>
+                <li>
+                    <strong>Limited-Time Offers:</strong> Deals or opportunities that will supposedly expire within hours or even minutes.
+                </li>
+                <li>
+                    <strong>Legal Threats:</strong> Warnings about imminent legal action, arrest, or other legal consequences.
+                </li>
+                <li>
+                    <strong>Family Emergency Scams:</strong> Messages claiming a family member is in trouble and needs money immediately.
+                </li>
+                <li>
+                    <strong>Job Loss Threats:</strong> Emails appearing to come from employers or executives demanding immediate action to avoid termination.
+                </li>
+                <li>
+                    <strong>Utility Shutoff Notices:</strong> Warnings that essential services will be disconnected unless payment is made immediately.
+                </li>
+                <li>
+                    <strong>Tax or Government Penalties:</strong> Threats of severe penalties, fines, or legal action from government agencies.
+                </li>
+            </ul>
+            
+            <div class="image-container">
+                <img src="https://www.consumer.ftc.gov/sites/default/files/pictures/0159-urgent-scams.png" alt="Example of an urgency scam" />
+                <p class="image-caption">Example of how urgency scams create pressure to act quickly</p>
+            </div>
+        </div>
+        
+        <div class="card">
+            <h2 class="section-title">How to Identify Urgency Scams</h2>
+            
+            <h3 class="subsection-title">Red Flags to Watch For</h3>
+            
+            <ul class="warning-list">
+                <li>
+                    <strong>Extreme Time Pressure:</strong> Deadlines measured in hours or minutes rather than days.
+                </li>
+                <li>
+                    <strong>Threatening Language:</strong> Warnings of severe negative consequences if you don't act immediately.
+                </li>
+
+        <a href="/" class="back-button btn btn-primary">
+            <i class="fas fa-arrow-left"></i> Back to Home
+        </a>
+    </div>
+</body>
+</html>

@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Impersonation Scams - Scam Detection</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --primary-dark: #3730a3;
+            --primary-light: #818cf8;
+            --warning: #f59e0b;
+            --warning-dark: #d97706;
+            --warning-light: #fef3c7;
+            --gray-50: #f9fafb;
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-300: #d1d5db;
+            --gray-400: #9ca3af;
+            --gray-500: #6b7280;
+            --gray-600: #4b5563;
+            --gray-700: #374151;
+            --gray-800: #1f2937;
+            --gray-900: #111827;
+        }
+        
+        body {
+            font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--gray-50);
+            color: var(--gray-700);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--gray-200);
+        }
+        
+        .header-logo {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+        }
+        
+        .header-logo i {
+            margin-right: 12px;
+            font-size: 32px;
+        }
+        
+        .card {
+            background-color: #ffffff;
+            border-radius: 16px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.1);
+            padding: 24px;
+            margin-bottom: 24px;
+            transition: all 0.3s ease;
+            border: 1px solid var(--gray-200);
+        }
+        
+        .btn {
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-weight: 600;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            border: none;
+            outline: none;
+        }
+        
+        .btn i {
+            margin-right: 10px;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 6px rgba(79, 70, 229, 0.2);
+        }
+        
+        .example-card {
+            border-left: 4px solid var(--warning);
+            background-color: var(--warning-light);
+            padding: 16px;
+            margin-bottom: 16px;
+            border-radius: 8px;
+        }
+        
+        .example-card h4 {
+            color: var(--warning-dark);
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        
+        .example-card p {
+            color: var(--gray-700);
+        }
+        
+        .tip-card {
+            border-left: 4px solid var(--primary);
+            background-color: #e0e7ff;
+            padding: 16px;
+            margin-bottom: 16px;
+            border-radius: 8px;
+        }
+        
+        .tip-card h4 {
+            color: var(--primary-dark);
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        
+        .tip-card p {
+            color: var(--gray-700);
+        }
+        
+        .section-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--gray-800);
+            margin-bottom: 16px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid var(--primary-light);
+        }
+        
+        .subsection-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--gray-800);
+            margin-top: 24px;
+            margin-bottom: 16px;
+        }
+        
+        ul.checklist {
+            list-style: none;
+            padding-left: 0;
+            margin-bottom: 24px;
+        }
+        
+        ul.checklist li {
+            position: relative;
+            padding-left: 30px;
+            margin-bottom: 12px;
+        }
+        
+        ul.checklist li:before {
+            content: '\f00c';
+            font-family: 'Font Awesome 5 Free';
+            font-weight: 900;
+            position: absolute;
+            left: 0;
+            top: 2px;
+            color: var(--primary);
+        }
+        
+        ul.warning-list {
+            list-style: none;
+            padding-left: 0;
+            margin-bottom: 24px;
+        }
+        
+        ul.warning-list li {
+            position: relative;
+            padding-left: 30px;
+            margin-bottom: 12px;
+        }
+        
+        ul.warning-list li:before {
+            content: '\f071';
+            font-family: 'Font Awesome 5 Free';
+            font-weight: 900;
+            position: absolute;
+            left: 0;
+            top: 2px;
+            color: var(--warning);
+        }
+        
+        .image-container {
+            margin: 24px 0;
+            text-align: center;
+        }
+        
+        .image-container img {
+            max-width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .image-caption {
+            margin-top: 8px;
+            font-size: 14px;
+            color: var(--gray-600);
+            text-align: center;
+        }
+        
+        .back-button {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 100;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 16px;
+            }
+            
+            .card {
+                padding: 20px;
+            }
+            
+            .section-title {
+                font-size: 22px;
+            }
+            
+            .subsection-title {
+                font-size: 18px;
+            }
+            
+            .back-button {
+                bottom: 20px;
+                right: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container mx-auto px-4 py-8">
+        <div class="header">
+            <div class="header-logo">
+                <i class="fas fa-user-secret text-yellow-500"></i>
+                <span>Impersonation Scams</span>
+            </div>
+        </div>
+        
+        <div class="card">
+            <h1 class="section-title">What is Impersonation?</h1>
+            <p class="mb-4">
+                Impersonation scams involve criminals pretending to be trusted individuals or organizations to trick you into sending money or sharing personal information. These scammers may claim to be from your bank, a government agency, a tech company, or even someone you know personally.
+            </p>
+            
+            <p class="mb-4">
+                Unlike general phishing attempts that cast a wide net, impersonation scams often involve detailed research about the target and can be highly convincing. The scammer may know your name, job title, where you bank, or other personal details that make their deception more believable.
+            </p>
+            
+            <div class="example-card">
+                <h4>Real-World Example</h4>
+                <p>
+                    You receive a call from someone claiming to be from your bank's fraud department. They know your name and the last four digits of your account number. They tell you there's been suspicious activity on your account and they need to verify your identity by asking for your full account details and online banking password to "secure your account."
+                </p>
+            </div>
+            
+            <h2 class="subsection-title">Common Types of Impersonation Scams</h2>
+            
+            <ul class="warning-list">
+                <li>
+                    <strong>Bank Impersonation:</strong> Scammers pretend to be from your bank's security team, claiming there's an issue with your account.
+                </li>
+                <li>
+                    <strong>Government Agency Impersonation:</strong> Pretending to be from tax authorities, social security, or other government agencies.
+                </li>
+                <li>
+                    <strong>Tech Support Impersonation:</strong> Claiming to be from Microsoft, Apple, or other tech companies to gain access to your devices.
+                </li>
+                <li>
+                    <strong>CEO/Executive Impersonation:</strong> Targeting employees by pretending to be company executives requesting urgent wire transfers or gift cards.
+                </li>
+                <li>
+                    <strong>Friend/Family Impersonation:</strong> Taking over or mimicking social media accounts to ask for emergency money from friends and family.
+                </li>
+                <li>
+                    <strong>Utility Company Impersonation:</strong> Threatening to cut off essential services unless immediate payment is made.
+                </li>
+            </ul>
+            
+            <div class="image-container">
+                <img src="https://www.consumer.ftc.gov/sites/default/files/pictures/0159-imposter-scams.png" alt="Example of an impersonation scam" />
+                <p class="image-caption">Example of how impersonation scams typically work</p>
+            </div>
+        </div>
+        
+        <div class="card">
+            <h2 class="section-title">How to Identify Impersonation Scams</h2>
+            
+            <h3 class="subsection-title">Red Flags to Watch For</h3>
+            
+            <ul class="warning-list">
+                <li>
+                    <strong>Unexpected Contact:</strong> You receive a call, email, or message out of the blue from an organization you deal with.
+                </li>
+                <li>
+                    <strong>Urgency and Pressure:</strong> The person creates a sense of urgency, saying you must act immediately to avoid negative consequences.
+                </li>
+                <li>
+                    <strong>Requests for Personal Information:</strong> They ask for sensitive details like passwords, PINs, or security codes.
+                </li>
+                <li>
+                    <strong>Unusual Payment Methods:</strong> Requests for payment via gift cards, wire transfers, or cryptocurrency.
+                </li>
+                <li>
+                    <strong>Slight Variations in Contact Details:</strong> Email addresses or phone numbers that are slightly different from the legitimate ones.
+                </li>
+                <li>
+                    <strong>Poor Grammar or Spelling:</strong> Communications with errors that wouldn't be present in professional correspondence.
+                </li>
+                <li>
+                    <strong>Threats or Intimidation:</strong> Warnings about legal action, arrest, or other severe consequences if you don't comply.
+                </li>
+                <li>
+                    <strong>Too Good to Be True:</strong> Offers or opportunities that seem unrealistically beneficial.
+                </li>
+            </ul>
+            
+            <div class="tip-card">
+                <h4>Pro Tip: Verify Independently</h4>
+                <p>
+                    If you receive a call or message claiming to be from your bank, a government agency, or any other organization, hang up and contact them directly using the official phone number from their website or the back of your card. Never use the contact details provided in the suspicious message.
+                </p>
+            </div>
+            
+            <div class="example-card">
+                <h4>Common Impersonation Tactics</h4>
+                <ul>
+                    <li>"This is your bank's fraud department calling about suspicious transactions"</li>
+                    <li>"I'm calling from Microsoft about a virus on your computer"</li>
+                    <li>"This is the IRS/tax office - you have unpaid taxes and face arrest"</li>
+                    <li>"Hi, this is [CEO name]. I need you to purchase some gift cards urgently for a client"</li>
+                    <li>"Your utility bill is overdue and your service will be disconnected today unless you pay now"</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="card">
+            <h2 class="section-title">How to Protect Yourself from Impersonation Scams</h2>
+            
+            <ul class="checklist">
+                <li>
+                    <strong>Never share sensitive information</strong> in response to an unsolicited call, email, or message.
+                </li>
+                <li>
+                    <strong>Take your time.</strong> Legitimate organizations won't pressure you to make immediate decisions.
+                </li>
+                <li>
+                    <strong>Verify the identity</strong> of anyone contacting you by calling the official number of the organization.
+                </li>
+                <li>
+                    <strong>Be suspicious of unusual payment requests,</strong> especially gift cards, wire transfers, or cryptocurrency.
+                </li>
+                <li>
+                    <strong>Enable two-factor authentication</strong> on all your important accounts.
+                </li>
+                <li>
+                    <strong>Check email addresses carefully</strong> for slight misspellings or variations.
+                </li>
+                <li>
+                    <strong>Be wary of calls from unknown numbers,</strong> especially if they claim to be from official organizations.
+                </li>
+                <li>
+                    <strong>Remember that banks and government agencies</strong> will never ask for your full password or PIN.
+                </li>
+                <li>
+                    <strong>Verify unusual requests from colleagues or executives</strong> through a different communication channel.
+                </li>
+                <li>
+                    <strong>Keep your personal information private</strong> on social media to make it harder for scammers to research you.
+                </li>
+            </ul>
+            
+            <div class="tip-card">
+                <h4>What to Do If You've Been Targeted</h4>
+                <ol class="ml-5 list-decimal">
+                    <li>End communication with the scammer immediately.</li>
+                    <li>Contact the real organization using their official contact details to report the impersonation.</li>
+                    <li>If you've shared financial information, contact your bank immediately.</li>
+                    <li>Change passwords for any accounts that may have been compromised.</li>
+                    <li>Report the scam to relevant authorities (police, consumer protection agencies, etc.).</li>
+                    <li>Alert friends and family about the scam, especially if it involved impersonation of you.</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+    
+    <a href="/" class="back-button btn btn-primary">
+        <i class="fas fa-arrow-left"></i> Back to Main Site
+    </a>
+    
+    <script>
+        // Any additional JavaScript can go here
+    </script>
+</body>
+</html>
